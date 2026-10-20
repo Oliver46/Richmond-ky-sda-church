@@ -20,10 +20,9 @@
      15. Contact page
      16. Closing invitation (end of inner pages)
      17. Footer
-     18. Intro photo collage (home page, built by js/main.js)
-     19. Entrance animation
-     20. Page-specific photo tweaks
-     21. Reduced motion (kept last so these always win)
+     18. Entrance animation
+     19. Page-specific photo tweaks
+     20. Reduced motion (kept last so these always win)
    ===================================================================== */
 
 /* =====================================================================
@@ -1234,74 +1233,7 @@ main:focus { outline: none; }
 @media (max-width: 599px) { .footer__made { flex-basis: 100%; margin-left: 0; text-align: center; } }
 
 /* =====================================================================
-   18. Intro photo collage (home page, built by js/main.js)
-   ===================================================================== */
-/* Set by js/main.js on .ic: --ic-duration (7000ms) and --ic-fade (1400ms) */
-.intro-active, .intro-active body { overflow: hidden; }
-.intro-active .reveal { animation-play-state: paused !important; }
-[data-intro] .hero__media img { transition: transform 2.4s cubic-bezier(.2, .7, .2, 1); }
-.intro-active .hero__media img { transform: scale(1.12); }
-
-.ic {
-  position: fixed; inset: 0; z-index: 9999; overflow: hidden; background: #0b0b0c;
-  transition: opacity var(--ic-fade) cubic-bezier(.4, 0, .2, 1), visibility 0s linear var(--ic-fade);
-}
-.ic.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
-.ic.is-done .ic__grid {
-  transform: scale(1.08) !important; filter: blur(10px) brightness(.8); animation: none;
-  transition: transform var(--ic-fade) cubic-bezier(.4, 0, .2, 1), filter var(--ic-fade) ease;
-}
-.ic.is-done .ic__title, .ic.is-done .ic__skip, .ic.is-done .ic__bar { opacity: 0; transition: opacity .5s ease; }
-
-.ic__grid {
-  position: absolute; inset: -4vmin; display: grid; gap: 6px;
-  grid-template-columns: repeat(var(--cols), 1fr); grid-template-rows: repeat(var(--rows), 1fr);
-  animation: ic-drift calc(var(--ic-duration) - var(--ic-fade)) linear forwards;
-}
-@keyframes ic-drift { from { transform: scale(1.12); } to { transform: scale(1); } }
-
-.ic__tile { position: relative; overflow: hidden; border-radius: 4px; background: #1a1a1c; animation: ic-open .35s ease both; }
-.ic__tile--big { grid-column: span 2; grid-row: span 2; }
-.ic__tile img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
-.ic__tile .ic__new { opacity: 0; transform: scale(1.18); }
-.ic__tile.is-in .ic__new { animation: ic-pop 1s cubic-bezier(.2, .8, .2, 1) forwards; }
-@keyframes ic-open { from { opacity: 0; } to { opacity: 1; } }
-@keyframes ic-pop {
-  0% { opacity: 0; transform: scale(1.18); filter: brightness(1.7); }
-  55% { opacity: 1; }
-  100% { opacity: 1; transform: scale(1); filter: brightness(1); }
-}
-
-.ic__scrim {
-  position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, .25) 0%, rgba(0, 0, 0, .7) 100%);
-}
-.ic.is-title .ic__scrim { opacity: 1; }
-.ic__title {
-  position: absolute; inset: 0; display: grid; place-content: center; padding: 24px;
-  text-align: center; color: #fff; opacity: 0; transform: translateY(14px);
-  transition: opacity 1s ease, transform 1s cubic-bezier(.2, .7, .2, 1);
-}
-.ic.is-title .ic__title { opacity: 1; transform: none; }
-.ic__brand { font-family: "Dancing Script", cursive; font-size: clamp(44px, 9vw, 110px); line-height: 1; text-shadow: 0 4px 30px rgba(0, 0, 0, .6); }
-.ic__sub { margin-top: 12px; font-family: var(--font-ui); font-size: clamp(11px, 1.4vw, 14px); letter-spacing: .28em; text-transform: uppercase; opacity: .85; }
-
-.ic__skip {
-  position: absolute; right: 20px; bottom: 20px; z-index: 2; padding: 10px 16px;
-  font: 500 13px/1 var(--font-ui); color: #fff; cursor: pointer;
-  background: rgba(0, 0, 0, .45); border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px;
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-}
-.ic__skip:hover { background: rgba(0, 0, 0, .65); }
-.ic__bar {
-  position: absolute; left: 0; bottom: 0; z-index: 2; width: 100%; height: 3px;
-  background: rgba(255, 255, 255, .8); transform-origin: left; transform: scaleX(0);
-  animation: ic-bar calc(var(--ic-duration) - var(--ic-fade)) linear forwards;
-}
-@keyframes ic-bar { to { transform: scaleX(1); } }
-
-/* =====================================================================
-   19. Entrance animation
+   18. Entrance animation
    ===================================================================== */
 
 /* ---------- Single entrance: fade + rise ---------- */
@@ -1320,7 +1252,7 @@ main:focus { outline: none; }
 @keyframes hero-in { to { opacity: 1; transform: none; } }
 
 /* =====================================================================
-   20. Page-specific photo tweaks
+   19. Page-specific photo tweaks
    ===================================================================== */
 
 /* Banner: the sign's own lettering competes with the title, so soften and deepen the photo */
@@ -1360,7 +1292,7 @@ main:focus { outline: none; }
 .parallax--sign .parallax__box { border: none; }
 
 /* =====================================================================
-   21. Reduced motion (kept last so these always win)
+   20. Reduced motion (kept last so these always win)
    ===================================================================== */
 
 /* Reduced motion: kept last so these always win */

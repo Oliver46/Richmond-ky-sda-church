@@ -37,7 +37,7 @@
   <!-- Background photo: preload so it paints with the headline -->
   <link rel="preload" as="image" href="img/richmond-sanctuary.webp" imagesrcset="img/richmond-sanctuary-960.webp 960w, img/richmond-sanctuary.webp 1195w" imagesizes="100vw" type="image/webp">
 
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20261020">
   <!-- Structured data for search engines -->
   <script type="application/ld+json">
   {
@@ -67,9 +67,247 @@
   }
   </script>
 </head>
-<body data-intro>
+<body>
 <a class="skip-link" href="#main">Skip to main content</a>
-<script src="js/main.js"></script>
+<script>
+/* =====================================================================
+   Intro photo collage (home page only)
+   Self-contained: settings, styles and code are all here. It runs right
+   away, before the page first paints, so it can cover the page.
+   ===================================================================== */
+(function () {
+  "use strict";
+
+  const INTRO = {
+    duration: 7000,            // total length, ms
+    fadeOut: 1400,             // overlay fade at the end, ms
+    swapStart: 900,            // new photos start flipping in, ms
+    swapEnd: 4000,             // last photo flips in, ms
+    titleAt: 4200,             // church name fades in, ms
+    oncePerSession: true,
+    featured: "6436",          // always the large photo in the center
+    folder: "img/image-collage/",
+    titleFont: "https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap",
+    photos: [
+      "3641", "3691", "3698", "3723", "3727", "3739", "3740", "3760", "3766", "3770", "3777",
+      "3800", "3832", "3851", "3863", "3876", "3909", "3927", "3931", "3932", "3942", "3953",
+      "3955", "3959", "3965", "3985", "3990", "3991", "3994", "4004", "4018", "4021", "4027",
+      "4030", "4038", "4044", "4061", "4103", "4108", "4109", "4117", "4122", "6436"
+    ]
+  };
+
+  const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /** Create an element with an optional class and text. */
+  function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function shuffle(list) {
+    const a = list.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const INTRO_CSS = `
+    /* --ic-duration and --ic-fade are set on .ic from INTRO.duration / INTRO.fadeOut */
+    .intro-active, .intro-active body { overflow: hidden; }
+    .intro-active .reveal { animation-play-state: paused !important; }
+    .hero__media img { transition: transform 2.4s cubic-bezier(.2, .7, .2, 1); }
+    .intro-active .hero__media img { transform: scale(1.12); }
+
+    .ic {
+      position: fixed; inset: 0; z-index: 9999; overflow: hidden; background: #0b0b0c;
+      transition: opacity var(--ic-fade) cubic-bezier(.4, 0, .2, 1), visibility 0s linear var(--ic-fade);
+    }
+    .ic.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+    .ic.is-done .ic__grid {
+      transform: scale(1.08) !important; filter: blur(10px) brightness(.8); animation: none;
+      transition: transform var(--ic-fade) cubic-bezier(.4, 0, .2, 1), filter var(--ic-fade) ease;
+    }
+    .ic.is-done .ic__title, .ic.is-done .ic__skip, .ic.is-done .ic__bar { opacity: 0; transition: opacity .5s ease; }
+
+    .ic__grid {
+      position: absolute; inset: -4vmin; display: grid; gap: 6px;
+      grid-template-columns: repeat(var(--cols), 1fr); grid-template-rows: repeat(var(--rows), 1fr);
+      animation: ic-drift calc(var(--ic-duration) - var(--ic-fade)) linear forwards;
+    }
+    @keyframes ic-drift { from { transform: scale(1.12); } to { transform: scale(1); } }
+
+    .ic__tile { position: relative; overflow: hidden; border-radius: 4px; background: #1a1a1c; }   /* visible from the start: never depends on an animation */
+    .ic__tile--big { grid-column: span 2; grid-row: span 2; }
+    .ic__tile img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+    .ic__tile .ic__new { opacity: 0; transform: scale(1.18); }
+    .ic__tile.is-in .ic__new { animation: ic-pop 1s cubic-bezier(.2, .8, .2, 1) forwards; }
+    @keyframes ic-pop {
+      0% { opacity: 0; transform: scale(1.18); filter: brightness(1.7); }
+      55% { opacity: 1; }
+      100% { opacity: 1; transform: scale(1); filter: brightness(1); }
+    }
+
+    .ic__scrim {
+      position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, .25) 0%, rgba(0, 0, 0, .7) 100%);
+    }
+    .ic.is-title .ic__scrim { opacity: 1; }
+    .ic__title {
+      position: absolute; inset: 0; display: grid; place-content: center; padding: 24px;
+      text-align: center; color: #fff; opacity: 0; transform: translateY(14px);
+      transition: opacity 1s ease, transform 1s cubic-bezier(.2, .7, .2, 1);
+    }
+    .ic.is-title .ic__title { opacity: 1; transform: none; }
+    .ic__brand { font-family: "Dancing Script", cursive; font-size: clamp(44px, 9vw, 110px); line-height: 1; text-shadow: 0 4px 30px rgba(0, 0, 0, .6); }
+    .ic__sub { margin-top: 12px; font-family: var(--font-ui); font-size: clamp(11px, 1.4vw, 14px); letter-spacing: .28em; text-transform: uppercase; opacity: .85; }
+
+    .ic__skip {
+      position: absolute; right: 20px; bottom: 20px; z-index: 2; padding: 10px 16px;
+      font: 500 13px/1 var(--font-ui); color: #fff; cursor: pointer;
+      background: rgba(0, 0, 0, .45); border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px;
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    }
+    .ic__skip:hover { background: rgba(0, 0, 0, .65); }
+    .ic__bar {
+      position: absolute; left: 0; bottom: 0; z-index: 2; width: 100%; height: 3px;
+      background: rgba(255, 255, 255, .8); transform-origin: left; transform: scaleX(0);
+      animation: ic-bar calc(var(--ic-duration) - var(--ic-fade)) linear forwards;
+    }
+    @keyframes ic-bar { to { transform: scaleX(1); } }
+  `;
+
+  /* ---------------------------------------------------------------------
+     Intro photo collage (~7 s)
+        Opens full of photos, new photos flip in from the center outward,
+        the church name fades in, then everything dissolves into the hero.
+        Skippable (button / click / Esc / Enter / Space), respects
+        prefers-reduced-motion, plays once per browser session.
+        Its styles (INTRO_CSS) are added only while it plays.
+     --------------------------------------------------------------------- */
+  function initIntro() {
+    const root = document.documentElement;
+
+    let seen = false;
+    try { seen = INTRO.oncePerSession && sessionStorage.getItem("introCollageSeen") === "1"; } catch (e) { /* storage blocked */ }
+    if (seen || prefersReducedMotion()) return;
+
+    // Title font, only downloaded when the intro actually plays
+    document.head.appendChild(Object.assign(document.createElement("link"), { rel: "stylesheet", href: INTRO.titleFont }));
+    const style = el("style");
+    style.textContent = INTRO_CSS;
+    document.head.appendChild(style);
+    root.classList.add("intro-active");
+
+    // Grid size from the screen: 3 / 4 / 6 columns, an even number of rows
+    const w = window.innerWidth, h = window.innerHeight;
+    const cols = w < 600 ? 3 : w < 1000 ? 4 : 6;
+    let rows = Math.max(3, Math.round(cols * (h / w) * 1.25));
+    if (rows % 2) rows += 1;
+
+    // One big tile exactly in the middle (2×2, or full width on 3-column phones)
+    const spanC = cols % 2 ? cols : 2, spanR = 2;
+    const bigC = (cols - spanC) / 2, bigR = rows / 2 - 1;
+    const cells = [];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const inBig = r >= bigR && r < bigR + spanR && c >= bigC && c < bigC + spanC;
+        if (r === bigR && c === bigC) cells.push({ r: r + (spanR - 1) / 2, c: c + (spanC - 1) / 2, big: true });
+        else if (!inBig) cells.push({ r, c, big: false });
+      }
+    }
+
+    // Flip order: closest to the center first, with a little randomness
+    const cr = (rows - 1) / 2, cc = (cols - 1) / 2;
+    cells.forEach((cell) => { cell.d = Math.hypot(cell.r - cr, (cell.c - cc) * (h / w) * 1.25) + Math.random() * 0.6; });
+    const order = cells.slice().sort((a, b) => a.d - b.d);
+    const step = (INTRO.swapEnd - INTRO.swapStart) / Math.max(1, order.length - 1);
+    order.forEach((cell, k) => { cell.delay = INTRO.swapStart + k * step; });
+
+    // DOM
+    const pics = shuffle(INTRO.photos.filter((n) => n !== INTRO.featured));
+    const thumb = (n) => INTRO.folder + "thumbs/collage-" + n + ".webp";
+
+    const overlay = el("div", "ic");
+    overlay.setAttribute("role", "region");
+    overlay.setAttribute("aria-label", "Welcome photo collage");
+    overlay.style.setProperty("--ic-duration", INTRO.duration + "ms");
+    overlay.style.setProperty("--ic-fade", INTRO.fadeOut + "ms");
+
+    const grid = el("div", "ic__grid");
+    grid.style.setProperty("--cols", cols);
+    grid.style.setProperty("--rows", rows);
+
+    cells.forEach((cell, k) => {
+      const tile = el("div", "ic__tile" + (cell.big ? " ic__tile--big" : ""));
+      const first = Object.assign(new Image(), { alt: "" });
+      first.fetchPriority = "high";
+
+      if (cell.big) {                                      // featured photo: full size, stays put
+        tile.style.gridColumn = "span " + spanC;
+        tile.style.gridRow = "span " + spanR;
+        first.src = INTRO.folder + "collage-" + INTRO.featured + ".webp";
+        tile.appendChild(first);
+      } else {                                             // small tile: a thumbnail, then a second one flips in
+        const a = pics[k % pics.length];
+        let b = pics[(k + cells.length) % pics.length];
+        if (b === a) b = pics[(k + 7) % pics.length];
+        first.src = thumb(a);
+        const next = Object.assign(new Image(), { alt: "", className: "ic__new", decoding: "async", src: thumb(b) });
+        tile.append(first, next);
+      }
+      grid.appendChild(tile);
+      cell.el = tile;
+    });
+
+    const title = el("div", "ic__title");
+    title.append(el("div", "ic__brand", "Richmond SDA"), el("div", "ic__sub", "Iglesia Adventista de Richmond"));
+    const skip = el("button", "ic__skip", "Skip intro");
+    skip.type = "button";
+    overlay.append(grid, el("div", "ic__scrim"), title, skip, el("div", "ic__bar"));
+
+    // Timeline
+    const timers = [];
+    const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+    let finished = false;
+
+    function finish() {
+      if (finished) return;
+      finished = true;
+      timers.forEach(clearTimeout);
+      overlay.classList.add("is-done");
+      // Hero photo settles (zoom 1.12 → 1) while the collage dissolves;
+      // the hero text starts animating partway through the fade.
+      const heroImg = document.querySelector(".hero__media img");
+      if (heroImg) heroImg.style.transform = "scale(1)";
+      setTimeout(() => {
+        root.classList.remove("intro-active");
+        if (heroImg) heroImg.style.transform = "";
+      }, Math.round(INTRO.fadeOut * 0.45));
+      try { sessionStorage.setItem("introCollageSeen", "1"); } catch (e) { /* storage blocked */ }
+      setTimeout(() => { overlay.remove(); style.remove(); }, INTRO.fadeOut + 100);
+      document.removeEventListener("keydown", onKey);
+    }
+    function onKey(e) {
+      if (e.key === "Escape" || e.key === "Enter" || e.key === " ") finish();
+    }
+
+    document.body.prepend(overlay);
+    skip.addEventListener("click", finish);
+    overlay.addEventListener("click", finish);
+    document.addEventListener("keydown", onKey);
+
+    order.forEach((cell) => at(cell.delay, () => cell.el.classList.add("is-in")));
+    at(INTRO.titleAt, () => overlay.classList.add("is-title"));
+    at(INTRO.duration - INTRO.fadeOut, finish);
+  }
+
+  initIntro();
+})();
+</script>
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__media" aria-hidden="true">
@@ -309,5 +547,6 @@
   <a class="btn btn--white" href="contact.html">Contact Us</a>
 </div>
 
+<script src="js/main.js?v=20261020" defer></script>
 </body>
 </html>
