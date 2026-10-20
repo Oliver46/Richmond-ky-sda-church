@@ -9,15 +9,15 @@
   <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#14325a">
-  <!-- Link previews (Facebook, WhatsApp, iMessage, X, LinkedIn…).
-       When the site has its web address, put the full address in front of the image path,
-       e.g. content="https://www.yourchurch.org/img/og/og-beliefs.jpg", and add <meta property="og:url" content="(full page address)">. -->
+  <!-- Link previews (Facebook, WhatsApp, iMessage, X, LinkedIn…) -->
+  <link rel="canonical" href="https://oliver46.github.io/Richmond-ky-sda-church/beliefs.html">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://oliver46.github.io/Richmond-ky-sda-church/beliefs.html">
   <meta property="og:site_name" content="Richmond Seventh-day Adventist Church">
   <meta property="og:locale" content="en_US">
   <meta property="og:title" content="Our Beliefs | Richmond Seventh-day Adventist Church">
   <meta property="og:description" content="What Seventh-day Adventists believe: the Bible, Jesus and salvation, the Sabbath, the church and the hope of Jesus’ return. Learn about our faith at the Richmond SDA Church in Richmond, KY.">
-  <meta property="og:image" content="img/og/og-beliefs.jpg">
+  <meta property="og:image" content="https://oliver46.github.io/Richmond-ky-sda-church/img/og/og-beliefs.jpg">
   <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -25,21 +25,19 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Our Beliefs | Richmond Seventh-day Adventist Church">
   <meta name="twitter:description" content="What Seventh-day Adventists believe: the Bible, Jesus and salvation, the Sabbath, the church and the hope of Jesus’ return. Learn about our faith at the Richmond SDA Church in Richmond, KY.">
-  <meta name="twitter:image" content="img/og/og-beliefs.jpg">
+  <meta name="twitter:image" content="https://oliver46.github.io/Richmond-ky-sda-church/img/og/og-beliefs.jpg">
   <meta name="twitter:image:alt" content="The Richmond SDA Church sign, with the words Rooted in Scripture. Centered on Jesus.">
   <title>Our Beliefs | Richmond Seventh-day Adventist Church</title>
   <meta name="description" content="What Seventh-day Adventists believe: the Bible, Jesus and salvation, the Sabbath, the church and the hope of Jesus’ return. Learn about our faith at the Richmond SDA Church in Richmond, KY.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&amp;display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:ital,wght@0,400&amp;display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&amp;family=Inter:wght@400;500&amp;display=swap">
 
   <!-- Background photo: preload so it paints with the headline -->
   <link rel="preload" as="image" href="img/beliefs-hero-bible.webp" imagesrcset="img/beliefs-hero-bible-960.webp 960w, img/beliefs-hero-bible.webp 1920w" imagesizes="100vw" type="image/webp">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
@@ -317,7 +315,7 @@
 <div class="menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
   <div class="menu__top">
     <a class="nav__brand" href="index.html"><img src="img/richmond-sda-logo-300.webp" srcset="img/richmond-sda-logo-300.webp 300w, img/richmond-sda-logo-600.webp 600w" sizes="160px" width="300" height="89" alt="Richmond Seventh-day Adventist Church — Home"></a>
-    <button class="nav__toggle" type="button" data-menu-close aria-label="Close menu" style="display:inline-flex">
+    <button class="nav__toggle" type="button" data-menu-close aria-label="Close menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
   </div>
@@ -332,43 +330,6 @@
   <a class="btn btn--white" href="contact.html">Contact Us</a>
 </div>
 
-<script>
-  (function () {
-    var openBtn = document.querySelector('.nav .nav__toggle');
-    var menu = document.getElementById('mobile-menu');
-    var closeBtn = menu.querySelector('[data-menu-close]');
-    var lastFocus = null;
-
-    function open() {
-      lastFocus = document.activeElement;
-      menu.hidden = false;
-      requestAnimationFrame(function () { menu.classList.add('is-open'); });
-      openBtn.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
-      closeBtn.focus();
-    }
-    function close() {
-      menu.classList.remove('is-open');
-      openBtn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-      setTimeout(function () { menu.hidden = true; }, 300);
-      (lastFocus || openBtn).focus();
-    }
-
-    openBtn.addEventListener('click', open);
-    closeBtn.addEventListener('click', close);
-    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
-    document.addEventListener('keydown', function (e) {
-      if (menu.hidden) return;
-      if (e.key === 'Escape') close();
-      if (e.key === 'Tab') {                              // keep focus inside the open menu
-        var f = menu.querySelectorAll('a, button');
-        var first = f[0], last = f[f.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    });
-  })();
-</script>
+<script src="js/main.js" defer></script>
 </body>
 </html>

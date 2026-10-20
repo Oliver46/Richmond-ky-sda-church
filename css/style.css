@@ -1,19 +1,69 @@
 /* =====================================================================
    Richmond Seventh-day Adventist Church — site styles
-   Shared by index, about, beliefs, events and contact pages.
+   Shared by index, about, beliefs, events and contact.
+
+   Contents
+     1. Design tokens: colors, fonts, spacing
+     2. Base & accessibility
+     3. Shared pieces: small labels, accent bar under titles
+     4. Buttons
+     5. Header navigation & mobile menu
+     6. Home hero
+     7. Inner-page banner (About, Beliefs, Events, Contact)
+     8. Home: text blocks (About Us, Our Beliefs)
+     9. Home: Church Services (parallax photo)
+     10. Home: events carousel
+     11. Inner pages: shared section layout
+     12. About page
+     13. Our Beliefs page
+     14. Events page
+     15. Contact page
+     16. Closing invitation (end of inner pages)
+     17. Footer
+     18. Intro photo collage (home page, built by js/main.js)
+     19. Entrance animation
+     20. Page-specific photo tweaks
+     21. Reduced motion (kept last so these always win)
+   ===================================================================== */
+
+/* =====================================================================
+   1. Design tokens: colors, fonts, spacing
+   ===================================================================== */
+:root {
+  /* Brand colors */
+  --navy: #14325a;   /* blue of the church sign: headings and buttons */
+  --navy-hover: #1d4475;
+  --wood: #8a5328;   /* warm wood accent: labels, bars (AA on white) */
+  --cream: #f6f1e8;   /* soft warm section background */
+  --charcoal: #333a40;   /* body text */
+  --deep-glass: rgba(14, 30, 52, .84);   /* dark glass box on photos */
+  --paper: #fdfbf7;   /* warm off-white text on navy */
+  --gold: #e2bd78;   /* accent on navy (bars, badges) */
+  --gold-light: #f3d3b0;   /* small labels on dark backgrounds */
+  --gold-hover: #f7ddc0;   /* gold button hover */
+  --line: #e6e1d6;   /* card borders */
+  --blue-tint: #e8eef6;   /* icon circles, photo backing */
+  --navy-deep: #0e2441;   /* footer */
+  --muted: #6b6f73;   /* secondary text on light backgrounds */
+  --ink: #1a1a17;   /* text on gold */
+  --white: #fff;
+  --white-75: rgba(255, 255, 255, .75);
+
+  /* Type */
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Layout & motion */
+  --gutter: clamp(24px, 4vw, 48px);
+  --measure: 60ch;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* =====================================================================
+   2. Base & accessibility
    ===================================================================== */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --white: #fff;
-  --white-75: rgba(255, 255, 255, .75);
-  --gutter: clamp(24px, 4vw, 48px);
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-brand: "Dancing Script", cursive;
-  --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --ease: cubic-bezier(.2, .7, .2, 1);
-}
 
 body {
   background: #000;
@@ -30,43 +80,100 @@ body {
 /* Visible keyboard focus everywhere */
 :focus-visible { outline: 2px solid var(--white); outline-offset: 4px; border-radius: 999px; }
 
-/* ================================================================
-   HERO
-   ================================================================ */
-.hero {
-  position: relative;
-  isolation: isolate;
-  min-height: 100vh;
-  min-height: 100svh;               /* grows on short screens instead of clipping text */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+.site { background: #fff; color: var(--charcoal); }
+
+.site :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+
+/* Accessibility: "Skip to main content" link, visible only when focused with the keyboard */
+.skip-link {
+  position: absolute; left: 16px; top: -100px; z-index: 10000;
+  padding: 12px 18px; border-radius: 10px;
+  background: #fff; color: var(--navy); font: 500 15px/1 var(--font-ui); text-decoration: none;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .25);
 }
 
-/* Background photo + 20% black layer */
-.hero__media { position: absolute; inset: 0; z-index: -1; }
+.skip-link:focus { top: 16px; outline: 2px solid var(--navy); outline-offset: 2px; }
 
-.hero__media picture,
-.hero__media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+main:focus { outline: none; }
+
+/* =====================================================================
+   3. Shared pieces: small labels, accent bar under titles
+   ===================================================================== */
+
+/* Short warm-wood bar centered under section titles */
+.bl-cta h2::after,
+.contact-intro__text h2::after,
+.ab-title::after,
+.block h2::after {
+  content: ""; display: block; width: 64px; height: 3px; border-radius: 999px; background: var(--wood);
 }
 
-.hero__media::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  /* Transparent blue overlay: a little deeper at the top (nav) and
-     bottom, lighter in the middle so the sanctuary still shows */
-  background:
-    linear-gradient(180deg,
-      rgba(10, 35, 85, .62) 0%,
-      rgba(16, 55, 120, .42) 45%,
-      rgba(10, 30, 75, .66) 100%);
+.kicker.kicker--wood { color: var(--wood); }
+
+.kicker {
+  display: inline-block; margin: 0 0 14px;
+  font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold-light);
 }
+
+/* =====================================================================
+   4. Buttons
+   ===================================================================== */
+
+.btn--navy { background: var(--navy); color: #fff; border: 1.5px solid var(--navy); }
+
+.btn--navy:hover { background: var(--navy-hover); border-color: var(--navy-hover); box-shadow: 0 8px 24px rgba(20, 50, 90, .25); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: 999px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+
+.btn:active { transform: scale(.97); }
+
+.btn--white { background: var(--white); color: #111; border: 1px solid var(--white); }
+
+.btn--white:hover { box-shadow: 0 8px 28px rgba(255, 255, 255, .28); }
+
+.btn--glass {
+  background: rgba(255, 255, 255, .12);
+  color: var(--white);
+  border: 1px solid rgba(255, 255, 255, .35);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+}
+
+.btn--glass:hover { background: rgba(255, 255, 255, .2); }
+
+.btn--navy-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+
+.btn--navy-outline:hover { background: var(--navy); color: #fff; }
+
+.btn--lg { min-height: 52px; padding: 0 28px; font-weight: 500; }
+
+@media (max-width: 560px) {
+  .btn--lg { white-space: normal; text-align: center; height: auto; padding: 12px 20px; }
+}
+
+.btn--outline-light { background: transparent; color: var(--paper); border: 1.5px solid rgba(253, 251, 247, .55); }
+
+.btn--outline-light:hover { background: var(--paper); color: var(--navy); border-color: var(--paper); }
+
+/* =====================================================================
+   5. Header navigation & mobile menu
+   ===================================================================== */
 
 /* ---------- Navigation ---------- */
 .nav {
@@ -78,7 +185,6 @@ body {
 }
 
 .nav__brand {
-  font-family: var(--font-brand);
   font-weight: 400;
   font-size: 32px;
   line-height: 1;
@@ -118,581 +224,6 @@ body {
 
 .menu__links a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 8px; }
 
-.cal-intro { padding: clamp(72px, 9vw, 120px) 24px clamp(56px, 7vw, 96px); text-align: center; }
-
-.cal-intro__head { max-width: 720px; margin: 0 auto; }
-
-.cal-intro__head .kicker { color: var(--wood); }
-
-.cal-intro__head h2 {
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
-}
-
-.cal-intro__head p:not(.kicker) { max-width: var(--measure); margin: 20px auto 0; font-size: 18px; line-height: 1.75; }
-
-.sabbath {
-  list-style: none; max-width: 1040px; margin: clamp(40px, 5vw, 56px) auto 0;
-  display: grid; gap: 20px; grid-template-columns: 1fr;
-}
-
-@media (min-width: 760px) { .sabbath { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.sabbath__card {
-  padding: 32px 24px; text-align: center;
-  background: #fff; border: 1px solid #e6e1d6; border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(20, 50, 90, .07);
-}
-
-.sabbath__icon {
-  display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 18px;
-  border-radius: 50%; background: #e8eef6; color: var(--navy);
-}
-
-.sabbath__card h3 { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.2; color: var(--navy); }
-
-.sabbath__time { margin-top: 4px; font-family: var(--font-display); font-size: clamp(34px, 3.4vw, 42px); line-height: 1.15; color: var(--wood); }
-
-.sabbath__card p:not(.sabbath__time) { margin-top: 8px; font-size: 16px; line-height: 1.6; }
-
-.sabbath__card .sabbath__place { margin-top: 12px; font-size: 17px; }
-
-.sabbath__place a { color: inherit; text-decoration: underline; text-decoration-color: rgba(20, 50, 90, .35); text-underline-offset: 3px; }
-
-.sabbath__place a:hover { color: var(--navy); text-decoration-color: currentColor; }
-
-.calendar { background: var(--cream); padding: clamp(48px, 7vw, 96px) clamp(12px, 3vw, 24px); }
-
-.calendar__frame {
-  max-width: 1040px; margin: 0 auto; padding: clamp(6px, 1.2vw, 14px);
-  background: #fff; border: 1px solid #e6e1d6; border-radius: 16px;
-  box-shadow: 0 18px 48px rgba(10, 30, 60, .12);
-}
-
-.calendar__embed { display: block; width: 100%; height: clamp(520px, 72vh, 760px); border: 0; border-radius: 8px; }
-
-.calendar__link { margin-top: 18px; text-align: center; font-size: 15px; }
-
-.calendar__link a { color: var(--navy); text-underline-offset: 3px; }
-
-.bl-cta { padding: clamp(80px, 10vw, 136px) 24px; text-align: center; }
-
-.bl-cta h2 {
-  display: inline-flex; flex-direction: column; align-items: center; gap: 18px;
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
-}
-
-.bl-cta h2::after { content: ""; display: block; width: 64px; height: 3px; border-radius: 999px; background: var(--wood); }
-
-.bl-cta > p { max-width: 46ch; margin: 18px auto 0; font-size: 18px; line-height: 1.75; }
-
-.bl-cta__actions { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-
-.bl-cta__actions .btn { min-width: 210px; }
-
-.btn--navy { background: var(--navy); color: #fff; border: 1.5px solid var(--navy); }
-
-.btn--navy:hover { background: var(--navy-hover); border-color: var(--navy-hover); box-shadow: 0 8px 24px rgba(20, 50, 90, .25); }
-
-@media (max-width: 560px) { .bl-cta__actions .btn { width: 100%; } }
-
-/* ================================================================
-   CONTACT PAGE (photo + details · map · invitation)
-   ================================================================ */
-.contact-intro { padding: clamp(72px, 9vw, 128px) 24px clamp(64px, 8vw, 112px); }
-
-.contact-intro__grid {
-  max-width: 1120px; margin: 0 auto;
-  display: grid; gap: clamp(40px, 6vw, 88px); align-items: center;
-}
-
-@media (min-width: 900px) { .contact-intro__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
-
-.contact-intro__media { position: relative; isolation: isolate; margin: 0; max-width: 500px; width: 100%; justify-self: center; }
-
-.contact-intro__media img {
-  display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 40%;
-  border-radius: 120px 18px 120px 18px;
-}
-
-.contact-intro__media::before {          /* same shape in cream, offset behind the photo */
-  content: ""; position: absolute; inset: 18px -18px -18px 18px; z-index: -1;
-  background: #e8eef6; border-radius: 120px 18px 120px 18px;
-}
-
-.contact-intro__text { max-width: var(--measure); }
-
-.contact-intro__text .kicker { color: var(--wood); }
-
-.contact-intro__text h2 {
-  display: flex; flex-direction: column; align-items: flex-start; gap: 18px;
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
-}
-
-.contact-intro__text h2::after { content: ""; display: block; width: 64px; height: 3px; border-radius: 999px; background: var(--wood); }
-
-.contact-intro__lead { margin-top: 22px; font-size: 18px; line-height: 1.75; }
-
-.contact-list { list-style: none; margin-top: 32px; display: grid; gap: 24px; }
-
-.contact-list li { display: flex; gap: 18px; align-items: flex-start; }
-
-.contact-list__icon {
-  flex: none; display: grid; place-items: center; width: 48px; height: 48px;
-  border-radius: 50%; background: #e8eef6; color: var(--navy);
-}
-
-.contact-list h3 { padding-top: 2px; font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--wood); }
-
-.contact-list p { margin-top: 6px; font-size: 18px; line-height: 1.6; color: var(--charcoal); }
-
-.contact-list a { color: inherit; text-decoration: underline; text-decoration-color: rgba(20, 50, 90, .35); text-underline-offset: 3px; }
-
-.contact-list a:hover { color: var(--navy); text-decoration-color: currentColor; }
-
-@media (max-width: 899px) {
-  .contact-intro__text { justify-self: center; text-align: center; }
-  .contact-intro__text h2 { align-items: center; }
-  .contact-list { width: fit-content; max-width: 100%; margin-inline: auto; text-align: left; }
-}
-
-.contact-map { line-height: 0; background: var(--cream); }
-
-.contact-map iframe { display: block; width: 100%; height: clamp(320px, 45vh, 460px); border: 0; filter: saturate(.9); }
-
-/* ================================================================
-   ABOUT PAGE (intro · who we are · how we live it · life together · first visit · verse)
-   ================================================================ */
-.ab-section { padding: clamp(72px, 9vw, 120px) 24px; }
-
-.ab-section--cream { background: var(--cream); }
-
-.ab-wrap { max-width: 1120px; margin: 0 auto; }
-
-.ab-head { max-width: 720px; margin: 0 auto; text-align: center; }
-
-.kicker.kicker--wood { color: var(--wood); }
-
-.ab-head .kicker, .ab-life__text .kicker, .ab-intro__text .kicker { display: block; }
-
-.ab-title {
-  display: inline-flex; flex-direction: column; align-items: center; gap: 18px;
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
-}
-
-.ab-title::after { content: ""; display: block; width: 64px; height: 3px; border-radius: 999px; background: var(--wood); }
-
-.ab-head > p:not(.kicker) { max-width: var(--measure); margin: 22px auto 0; font-size: 18px; line-height: 1.75; }
-
-/* 1. Intro: photo + statement */
-.ab-intro__grid { display: grid; gap: clamp(40px, 6vw, 88px); align-items: center; }
-
-@media (min-width: 900px) { .ab-intro__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
-
-.ab-intro__media { position: relative; isolation: isolate; margin: 0; max-width: 560px; width: 100%; justify-self: center; }
-
-.ab-intro__media img {
-  display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 90%;   /* crops the white tent roof */
-  border-radius: 120px 18px 120px 18px;
-  /* thin ring + soft shadow so the leaf shape reads even where the photo is white (the tent) */
-  box-shadow: 0 0 0 1px rgba(20, 50, 90, .10), 0 18px 40px rgba(20, 50, 90, .16);
-}
-
-.ab-intro__media::before {
-  content: ""; position: absolute; inset: 18px -18px -18px 18px; z-index: -1;
-  background: #dbe5f1; border-radius: 120px 18px 120px 18px;
-}
-
-.ab-intro__text { max-width: var(--measure); }
-
-.ab-statement {
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(30px, 3.2vw, 42px); line-height: 1.2; color: var(--navy);
-}
-
-.ab-statement em { color: var(--wood); }
-
-.ab-intro__text > p:not(.kicker) { margin-top: 22px; font-size: 18px; line-height: 1.75; }
-
-.ab-intro__text .btn { margin-top: 30px; }
-
-@media (max-width: 899px) { .ab-intro__text { justify-self: center; text-align: center; } }
-
-/* ================================================================
-   BELIEFS PAGE (core beliefs · Sabbath · 28 beliefs · questions)
-   ================================================================ */
-/* Chips that jump to each belief */
-.bf-toc ol { list-style: none; margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; }
-
-.bf-toc a {
-  display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px;
-  border: 1px solid rgba(20, 50, 90, .2); background: #fff; color: var(--navy);
-  font-size: 14px; text-decoration: none; transition: background .2s ease, color .2s ease, border-color .2s ease;
-}
-
-.bf-toc a span { font-size: 12px; font-weight: 500; letter-spacing: .08em; color: var(--wood); }
-
-.bf-toc a:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
-
-.bf-toc a:hover span { color: #f3d3b0; }
-
-/* One belief: number + icon panel beside the text, alternating sides */
-.bf-list { display: grid; gap: clamp(28px, 4vw, 40px); margin-top: clamp(48px, 6vw, 72px); }
-
-.bf-item {
-  display: grid; gap: clamp(24px, 4vw, 56px); align-items: center;
-  padding: clamp(28px, 4vw, 48px); background: #fff;
-  border: 1px solid #e6e1d6; border-radius: 22px; box-shadow: 0 14px 40px rgba(20, 50, 90, .07);
-  scroll-margin-top: 24px;
-}
-
-@media (min-width: 900px) {
-  .bf-item { grid-template-columns: 300px minmax(0, 1fr); }
-  .bf-item:nth-child(even) { grid-template-columns: minmax(0, 1fr) 300px; }
-  .bf-item:nth-child(even) .bf-art { order: 2; }
-}
-
-.bf-art {
-  position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; max-width: 300px; width: 100%; justify-self: center;
-  border-radius: 120px 18px 120px 18px; background: linear-gradient(160deg, #e8eef6, #f6f1e8); color: var(--navy);
-}
-
-.bf-art svg { width: 46%; height: auto; }
-
-.bf-art__num {
-  position: absolute; left: 22px; top: 14px;
-  font-family: var(--font-display); font-size: 64px; line-height: 1; color: var(--wood);   /* 3:1+ contrast (WCAG large text) */
-}
-
-.bf-body h3 { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 3.2vw, 42px); line-height: 1.1; color: var(--navy); }
-
-.bf-body > p { margin-top: 16px; font-size: 18px; line-height: 1.75; }
-
-.bf-verse { margin: 24px 0 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--wood); }
-
-.bf-verse p { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 2vw, 26px); line-height: 1.35; color: var(--navy); }
-
-.bf-verse cite, .bf-refs dt { display: block; margin-top: 10px; font-style: normal; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--wood); }
-
-.bf-meaning { margin-top: 22px; padding: 16px 18px; border-radius: 12px; background: var(--cream); font-size: 16px; line-height: 1.65; }
-
-.bf-meaning strong { color: var(--navy); font-weight: 500; }
-
-.bf-refs { margin-top: 18px; font-size: 14px; color: #5d6166; }
-
-.bf-refs dt { display: inline; margin: 0 8px 0 0; }
-
-.bf-refs dd { display: inline; margin: 0; }
-
-/* The center: Jesus (navy, featured) */
-.bf-item--center { background: var(--navy); border-color: var(--navy); color: rgba(253, 251, 247, .85); }
-
-.bf-item--center .bf-art { background: rgba(253, 251, 247, .08); color: #f3d3b0; }
-
-.bf-item--center .bf-art__num { color: #f3d3b0; }
-
-.bf-item--center h3, .bf-item--center .bf-verse p { color: #fdfbf7; }
-
-.bf-item--center .bf-verse { border-color: #e2bd78; }
-
-.bf-item--center .bf-verse cite { color: #f3d3b0; }
-
-.bf-item--center .bf-meaning { background: rgba(253, 251, 247, .08); }
-
-.bf-item--center .bf-meaning strong { color: #fff; }
-
-.bf-item--center .bf-refs { color: rgba(253, 251, 247, .7); }
-
-.bf-item--center .bf-refs dt { color: #f3d3b0; }
-
-.bf-tag { display: inline-block; margin-bottom: 14px; padding: 5px 13px; border-radius: 999px; background: #e2bd78; color: #1a1a17; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
-
-/* Church & living: photo strip inside the card */
-.bf-photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
-
-.bf-photos img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; }
-
-/* The Sabbath feature */
-.bf-sabbath { position: relative; isolation: isolate; overflow: hidden; color: #fff; }
-
-.bf-sabbath__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
-
-.bf-sabbath::after {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background: linear-gradient(180deg, rgba(10, 35, 85, .78) 0%, rgba(16, 45, 100, .70) 50%, rgba(10, 30, 75, .82) 100%);
-}
-
-.bf-sabbath .kicker { color: #f3d3b0; }
-
-.bf-sabbath .ab-title { color: #fff; }
-
-.bf-sabbath .ab-title::after { background: #e2bd78; }
-
-.bf-sabbath .ab-head > p:not(.kicker) { color: rgba(255, 255, 255, .85); }
-
-.bf-sabbath__verse { margin-top: 26px; font-family: var(--font-display); font-style: italic; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.3; }
-
-.bf-sabbath__verse cite { display: block; margin-top: 10px; font-family: var(--font-ui); font-style: normal; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #f3d3b0; }
-
-.bf-sabbath__grid { list-style: none; max-width: 1040px; margin: clamp(36px, 5vw, 52px) auto 0; display: grid; gap: 16px; grid-template-columns: 1fr; }
-
-@media (min-width: 640px) { .bf-sabbath__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-@media (min-width: 1000px) { .bf-sabbath__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-
-.bf-sabbath__grid li {
-  padding: 24px 22px; border-radius: 16px; text-align: left;
-  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-}
-
-.bf-sabbath__grid h3 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; }
-
-.bf-sabbath__grid p { margin-top: 8px; font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, .85); }
-
-.bf-sabbath__note { margin-top: 28px; text-align: center; font-size: 15px; color: rgba(255, 255, 255, .85); }
-
-/* 28 Fundamental Beliefs */
-.bf-28 { display: grid; gap: clamp(20px, 4vw, 56px); align-items: center; max-width: 960px; margin: 0 auto; }
-
-@media (min-width: 760px) { .bf-28 { grid-template-columns: auto minmax(0, 1fr); } }
-
-.bf-28__num { font-family: var(--font-display); font-size: clamp(140px, 18vw, 220px); line-height: .85; color: var(--navy); text-align: center; }
-
-.bf-28__num span { display: block; margin-top: 10px; font-family: var(--font-ui); font-size: 12px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--wood); }
-
-.bf-28__text h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 3.8vw, 50px); line-height: 1.1; color: var(--navy); }
-
-.bf-28__text p:not(.kicker) { margin-top: 16px; font-size: 18px; line-height: 1.75; }
-
-.bf-28__text .btn { margin-top: 26px; gap: 10px; }
-
-.bf-28__text .btn svg { width: 16px; height: 16px; }
-
-@media (max-width: 759px) { .bf-28__text { text-align: center; } }
-
-/* 28 beliefs on the church blue, with an open Bible drawn faintly on the right */
-.bf-28-band { position: relative; isolation: isolate; overflow: hidden; background: var(--navy); color: rgba(253, 251, 247, .85); }
-
-.bf-28-band .bf-28 { position: relative; z-index: 1; }
-
-.bf-28-band .bf-28__num { color: #fdfbf7; }
-
-.bf-28-band .bf-28__num span, .bf-28-band .kicker { color: #f3d3b0; }
-
-.bf-28-band .bf-28__text h2 { color: #fdfbf7; }
-
-.bf-28-band .btn--white { background: #f3d3b0; border-color: #f3d3b0; color: var(--navy); }
-
-.bf-28-band .btn--white:hover { background: #f7ddc0; border-color: #f7ddc0; box-shadow: 0 8px 28px rgba(243, 211, 176, .3); }
-
-/* Open Bible photo on the right, fading into the blue toward the text */
-.bf-28__bible {
-  position: absolute; z-index: 0; top: 0; right: 0; height: 100%; width: 58%;
-  object-fit: cover; object-position: 60% 60%; opacity: .55; pointer-events: none;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
-          mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
-}
-
-@media (min-width: 760px) { .bf-28-band .bf-28 { max-width: 1120px; } .bf-28-band .bf-28__text { max-width: 500px; } }
-
-@media (max-width: 759px) {
-  .bf-28__bible { width: 100%; opacity: .22; -webkit-mask-image: none; mask-image: none; }
-}
-
-/* Questions (accordion) */
-.bf-faq { max-width: 820px; margin: clamp(36px, 5vw, 52px) auto 0; display: grid; gap: 12px; }
-
-.bf-faq details { background: #fff; border: 1px solid #e6e1d6; border-radius: 14px; }
-
-.bf-faq summary {
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: 20px 22px; cursor: pointer; list-style: none;
-  font-family: var(--font-display); font-size: clamp(22px, 2vw, 26px); line-height: 1.25; color: var(--navy);
-}
-
-.bf-faq summary::-webkit-details-marker { display: none; }
-
-.bf-faq summary::after {
-  content: ""; flex: none; width: 12px; height: 12px; margin-right: 4px;
-  border-right: 2px solid var(--wood); border-bottom: 2px solid var(--wood);
-  transform: rotate(45deg) translateY(-3px); transition: transform .25s ease;
-}
-
-.bf-faq details[open] summary::after { transform: rotate(-135deg) translateY(-3px); }
-
-.bf-faq details > div { padding: 0 22px 22px; font-size: 17px; line-height: 1.7; }
-
-.bf-faq details > div p + p { margin-top: 12px; }
-
-.bf-faq a { color: var(--navy); text-underline-offset: 3px; }
-
-/* Banner: the sign's own lettering competes with the title, so soften and deepen the photo */
-.page-hero.page-hero--beliefs .hero__media img { filter: blur(3px); transform: scale(1.04); object-position: center 45%; }
-
-.page-hero.page-hero--beliefs .hero__media::after {
-  background: linear-gradient(180deg, rgba(10, 35, 85, .72) 0%, rgba(16, 55, 120, .62) 45%, rgba(10, 30, 75, .78) 100%);
-}
-
-.bl-cta__times { margin-top: 10px; font-size: 15px; color: #6b6f73; }
-
-/* 2. Who we are + numbers */
-.ab-who__body { max-width: var(--measure); margin: 28px auto 0; }
-
-.ab-who__body p { font-size: 18px; line-height: 1.75; }
-
-.ab-who__body p + p { margin-top: 18px; }
-
-.ab-stats {
-  list-style: none; max-width: 960px; margin: clamp(40px, 5vw, 56px) auto 0;
-  display: grid; gap: 16px; grid-template-columns: 1fr;
-}
-
-@media (min-width: 700px) { .ab-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.ab-stats li {
-  padding: 28px 20px; text-align: center; background: #fff;
-  border: 1px solid #e6e1d6; border-radius: 16px;
-}
-
-.ab-stats strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(40px, 4vw, 52px); line-height: 1; color: var(--navy); }
-
-.ab-stats span { display: block; margin-top: 10px; font-size: 15px; line-height: 1.5; color: var(--charcoal); }
-
-.ab-source { margin-top: 18px; text-align: center; font-size: 13px; color: #6b6f73; }
-
-.ab-source a { color: inherit; text-underline-offset: 3px; }
-
-/* 3. How we live it out: four value cards */
-.ab-values {
-  list-style: none; margin-top: clamp(40px, 5vw, 56px);
-  display: grid; gap: 20px; grid-template-columns: 1fr;
-}
-
-@media (min-width: 640px)  { .ab-values { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-
-@media (min-width: 1040px) { .ab-values { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-
-.ab-value {
-  padding: 30px 26px 32px; background: #fff;
-  border: 1px solid #e6e1d6; border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(20, 50, 90, .07);
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-
-.ab-value:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(20, 50, 90, .12); }
-
-.ab-value__icon {
-  display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 20px;
-  border-radius: 50%; background: #e8eef6; color: var(--navy);
-}
-
-.ab-value h3 { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.2; color: var(--navy); }
-
-.ab-value p { margin-top: 10px; font-size: 16px; line-height: 1.65; }
-
-/* 4. Life together: text + photo mosaic */
-.ab-life__grid { display: grid; gap: clamp(36px, 5vw, 72px); align-items: center; }
-
-@media (min-width: 960px) { .ab-life__grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
-
-.ab-life__text .ab-title { align-items: flex-start; }
-
-.ab-life__text p:not(.kicker) { margin-top: 22px; font-size: 18px; line-height: 1.75; }
-
-@media (max-width: 959px) { .ab-life__text { text-align: center; } .ab-life__text .ab-title { align-items: center; } }
-
-.ab-mosaic {
-  display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(110px, 13vw, 170px);
-}
-
-.ab-mosaic figure { margin: 0; overflow: hidden; border-radius: 14px; }
-
-.ab-mosaic figure:first-child { grid-column: span 2; grid-row: span 2; }
-
-.ab-mosaic img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
-
-.ab-mosaic figure:hover img { transform: scale(1.05); }
-
-/* 5. Your first visit (navy band) */
-.ab-visit { background: var(--navy); color: #fdfbf7; }
-
-.ab-visit .ab-title { color: #fdfbf7; }
-
-.ab-visit .ab-head > p:not(.kicker) { color: rgba(253, 251, 247, .8); }
-
-.ab-visit .kicker { color: #f3d3b0; }
-
-.ab-visit .ab-title::after { background: #e2bd78; }
-
-.ab-steps {
-  list-style: none; counter-reset: step; max-width: 1040px; margin: clamp(40px, 5vw, 56px) auto 0;
-  display: grid; gap: 20px; grid-template-columns: 1fr;
-}
-
-@media (min-width: 820px) { .ab-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-
-.ab-step {
-  position: relative; padding: 30px 26px;
-  background: rgba(253, 251, 247, .06); border: 1px solid rgba(253, 251, 247, .16); border-radius: 16px;
-}
-
-.ab-step__time { display: block; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #f3d3b0; }
-
-.ab-step h3 { margin-top: 10px; font-family: var(--font-display); font-weight: 400; font-size: 30px; line-height: 1.15; color: #fdfbf7; }
-
-.ab-step p { margin-top: 10px; font-size: 16px; line-height: 1.65; color: rgba(253, 251, 247, .8); }
-
-.ab-visit__note { margin-top: 32px; text-align: center; font-size: 16px; color: rgba(253, 251, 247, .8); }
-
-.ab-visit__note a { color: #fff; text-underline-offset: 3px; }
-
-/* 6. Verse */
-.ab-verse { max-width: 820px; margin: 0 auto; text-align: center; }
-
-.ab-verse blockquote p {
-  font-family: var(--font-display); font-style: italic; font-weight: 400;
-  font-size: clamp(30px, 3.6vw, 46px); line-height: 1.25; color: var(--navy);
-}
-
-.ab-verse cite { display: block; margin-top: 20px; font-style: normal; font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--wood); }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 48px;
-  padding: 0 28px;
-  border-radius: 999px;
-  font-family: var(--font-ui);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: .06em;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
-}
-
-.btn:active { transform: scale(.97); }
-
-.btn--white { background: var(--white); color: #111; border: 1px solid var(--white); }
-
-.btn--white:hover { box-shadow: 0 8px 28px rgba(255, 255, 255, .28); }
-
-.btn--glass {
-  background: rgba(255, 255, 255, .12);
-  color: var(--white);
-  border: 1px solid rgba(255, 255, 255, .35);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
-}
-
-.btn--glass:hover { background: rgba(255, 255, 255, .2); }
-
 .nav__cta { min-height: 42px; padding: 0 22px; font-size: 13px; letter-spacing: .02em; }
 
 .nav__toggle {
@@ -709,6 +240,91 @@ body {
 }
 
 .nav__toggle svg { width: 20px; height: 20px; }
+
+/* ---------- Mobile menu ---------- */
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  padding: 20px var(--gutter) 40px;
+  background: rgba(0, 0, 0, .82);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease, visibility 0s linear .3s;
+}
+
+.menu .nav__toggle { display: inline-flex; }   /* close button inside the open menu */
+.menu.is-open { opacity: 1; visibility: visible; transition: opacity .3s ease; }
+
+.menu__top { display: flex; align-items: center; justify-content: space-between; }
+
+.menu__links {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+  list-style: none;
+}
+
+.menu__links a {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+  color: var(--white);
+  text-decoration: none;
+}
+
+.menu .btn { align-self: flex-start; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .nav__links, .nav__cta { display: none; }
+  .nav__toggle { display: inline-flex; }
+}
+
+/* =====================================================================
+   6. Home hero
+   ===================================================================== */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  min-height: 100svh;               /* grows on short screens instead of clipping text */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Background photo + 20% black layer */
+.hero__media { position: absolute; inset: 0; z-index: -1; }
+
+.hero__media picture,
+.hero__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* Transparent blue overlay: a little deeper at the top (nav) and
+     bottom, lighter in the middle so the sanctuary still shows */
+  background:
+    linear-gradient(180deg,
+      rgba(10, 35, 85, .62) 0%,
+      rgba(16, 55, 120, .42) 45%,
+      rgba(10, 30, 75, .66) 100%);
+}
 
 /* ---------- Centre content ---------- */
 .hero__content {
@@ -792,51 +408,6 @@ body {
   text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
 }
 
-/* ---------- Mobile menu ---------- */
-.menu {
-  position: fixed;
-  inset: 0;
-  z-index: 50;
-  display: flex;
-  flex-direction: column;
-  padding: 20px var(--gutter) 40px;
-  background: rgba(0, 0, 0, .82);
-  -webkit-backdrop-filter: blur(18px);
-  backdrop-filter: blur(18px);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s ease, visibility 0s linear .3s;
-}
-
-.menu.is-open { opacity: 1; visibility: visible; transition: opacity .3s ease; }
-
-.menu__top { display: flex; align-items: center; justify-content: space-between; }
-
-.menu__links {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 22px;
-  list-style: none;
-}
-
-.menu__links a {
-  font-family: var(--font-display);
-  font-size: 40px;
-  line-height: 1;
-  color: var(--white);
-  text-decoration: none;
-}
-
-.menu .btn { align-self: flex-start; }
-
-/* ---------- Responsive ---------- */
-@media (max-width: 980px) {
-  .nav__links, .nav__cta { display: none; }
-  .nav__toggle { display: inline-flex; }
-}
-
 @media (max-width: 560px) {
   .hero__actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 360px; }
   .hero__actions .btn { width: 100%; white-space: normal; text-align: center; }
@@ -847,22 +418,48 @@ body {
   .hero__content { justify-content: flex-start; padding-top: 24px; }
 }
 
-/* ================================================================
-   HOME SECTIONS (About Us · Church Services parallax · Our Beliefs)
-   ================================================================ */
-:root {
-  --navy: #14325a;                 /* blue of the church sign: headings and buttons */
-  --navy-hover: #1d4475;
-  --wood: #8a5328;                 /* warm wood accent (ornament) — AA on white */
-  --cream: #f6f1e8;                /* soft warm background */
-  --charcoal: #333a40;
-  --deep-glass: rgba(14, 30, 52, .84);
-  --measure: 60ch;
+/* =====================================================================
+   7. Inner-page banner (About, Beliefs, Events, Contact)
+   ===================================================================== */
+
+.page-hero {
+  position: relative; isolation: isolate; overflow: hidden;
+  min-height: clamp(420px, 62vh, 600px);
+  display: flex; flex-direction: column;
 }
 
-.site { background: #fff; color: var(--charcoal); }
+.page-hero .hero__media img { object-position: center 55%; }
 
-.site :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+.page-hero__content {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 24px var(--gutter) 104px;
+}
+
+.page-hero h1 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(56px, 9vw, 112px); line-height: 1; letter-spacing: -.01em; color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, .45), 0 4px 24px rgba(0, 0, 0, .55), 0 0 60px rgba(0, 0, 0, .3);
+}
+
+.page-hero__sub { margin-top: 14px; font-size: clamp(16px, 1.6vw, 18px); color: var(--white-75); text-shadow: 0 1px 10px rgba(0, 0, 0, .5); }
+
+.scroll-cue {
+  position: absolute; left: 50%; bottom: 24px; translate: -50% 0;
+  display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 8px 12px; border-radius: 8px;
+  font-size: 12px; letter-spacing: .24em; text-transform: uppercase; white-space: nowrap;
+  color: var(--white-75); text-decoration: none; text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
+}
+
+.scroll-cue:hover { color: #fff; }
+
+.scroll-cue svg { animation: cue-float 2.4s ease-in-out 2; }
+
+@keyframes cue-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+/* =====================================================================
+   8. Home: text blocks (About Us, Our Beliefs)
+   ===================================================================== */
 
 /* Centered text blocks */
 .block { padding: clamp(64px, 8vw, 112px) 24px; text-align: center; }
@@ -878,21 +475,13 @@ body {
   color: var(--navy);
 }
 
-/* Accent: short warm-wood bar centered below each title (same as "Get in Touch") */
-.block h2::after {
-  content: ""; display: block; width: 64px; height: 3px;
-  border-radius: 999px; background: var(--wood);
-}
-
 .block__inner > p { max-width: var(--measure); margin: 24px auto 0; font-size: 18px; line-height: 1.75; }
 
 .block .btn { margin-top: 32px; }
 
-.btn--navy-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
-
-.btn--navy-outline:hover { background: var(--navy); color: #fff; }
-
-.btn--lg { min-height: 52px; padding: 0 28px; font-weight: 500; }
+/* =====================================================================
+   9. Home: Church Services (parallax photo)
+   ===================================================================== */
 
 /* Parallax */
 .parallax {
@@ -920,11 +509,7 @@ body {
   pointer-events: none;
 }
 
-/* Home "Church Services": photo widened from the left edge so the sign sits further right, clear of the box */
-.parallax--sign .parallax__img { right: auto; width: 122%; object-position: center 60%; }
-
-@media (max-width: 767px) { .parallax--sign .parallax__img { width: 100%; right: 0; } }
-
+/* phones: keep the sign in view */
 .parallax__box {
   max-width: 540px; width: 100%;
   background: var(--deep-glass);
@@ -935,10 +520,6 @@ body {
   text-align: center;
 }
 
-.parallax--right { justify-content: flex-end; }
-
-.parallax--right .parallax__box { margin-right: clamp(0px, 8vw, 140px); }
-
 .parallax--left  .parallax__box { margin-left:  clamp(0px, 8vw, 140px); }
 
 .parallax__box h2 {
@@ -948,41 +529,29 @@ body {
 
 .schedule { margin-top: 22px; font-size: 18px; line-height: 1.75; }
 
-.schedule dt { margin-bottom: 4px; font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: #f3d3b0; }
+.schedule dt { margin-bottom: 4px; font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--gold-light); }
 
 .schedule dd { margin: 0; }
-
-.btn--light { background: #fff; color: #111; border: 1px solid #fff; }
-
-.btn--light:hover { box-shadow: 0 8px 28px rgba(255, 255, 255, .28); }
-
-.parallax__btn { margin-top: 24px; }
 
 @media (max-width: 767px) {
   .parallax { justify-content: center; }
   .parallax .parallax__box { margin: 0; }
 }
 
-@media (max-width: 560px) {
-  .btn--lg { white-space: normal; text-align: center; height: auto; padding: 12px 20px; }
-}
+/* =====================================================================
+   10. Home: events carousel
+   ===================================================================== */
 
 /* ---------- Events (carousel of cards on the sign's blue) ---------- */
-.events { background: var(--navy); color: #fdfbf7; padding: clamp(80px, 9vw, 110px) 0; }
+.events { background: var(--navy); color: var(--paper); padding: clamp(80px, 9vw, 110px) 0; }
 
 .events__inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
-
-.kicker {
-  display: inline-block; margin: 0 0 14px;
-  font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
-  color: #f3d3b0;
-}
 
 .events__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 48px; }
 
 .events__heading {
   font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: #fdfbf7;
+  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--paper);
 }
 
 .events__copy { margin-top: 16px; max-width: 520px; font-size: 16px; line-height: 1.65; color: rgba(253, 251, 247, .78); }
@@ -992,15 +561,15 @@ body {
 .round-btn {
   display: grid; place-items: center;
   width: 44px; height: 44px; border-radius: 50%;
-  background: transparent; color: #fdfbf7; border: 1.5px solid rgba(253, 251, 247, .45);
+  background: transparent; color: var(--paper); border: 1.5px solid rgba(253, 251, 247, .45);
   cursor: pointer; transition: background .25s ease, color .25s ease, border-color .25s ease, opacity .25s ease;
 }
 
 .round-btn svg { width: 18px; height: 18px; }
 
-.round-btn:hover { background: #fdfbf7; color: var(--navy); border-color: #fdfbf7; }
+.round-btn:hover { background: var(--paper); color: var(--navy); border-color: var(--paper); }
 
-.round-btn:disabled { opacity: .35; cursor: default; background: transparent; color: #fdfbf7; border-color: rgba(253, 251, 247, .45); }
+.round-btn:disabled { opacity: .35; cursor: default; background: transparent; color: var(--paper); border-color: rgba(253, 251, 247, .45); }
 
 .events :focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 
@@ -1030,23 +599,19 @@ body {
 .event-card__badge {
   position: absolute; top: 14px; left: 14px;
   padding: 5px 13px; border-radius: 999px;
-  background: #e2bd78; color: #1a1a17;
+  background: var(--gold); color: var(--ink);
   font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
 }
 
 .event-card__body { padding: 22px 22px 26px; }
 
-.event-card__when { display: block; margin-bottom: 8px; font-size: 11.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: #f3d3b0; }
+.event-card__when { display: block; margin-bottom: 8px; font-size: 11.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--gold-light); }
 
-.event-card__title { margin-bottom: 10px; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; color: #fdfbf7; }
+.event-card__title { margin-bottom: 10px; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; color: var(--paper); }
 
 .event-card__copy { font-size: 14px; line-height: 1.6; color: rgba(253, 251, 247, .74); }
 
 .events__cta { margin-top: 48px; text-align: center; }
-
-.btn--outline-light { background: transparent; color: #fdfbf7; border: 1.5px solid rgba(253, 251, 247, .55); }
-
-.btn--outline-light:hover { background: #fdfbf7; color: var(--navy); border-color: #fdfbf7; }
 
 @media (max-width: 1100px) { .event-card { width: calc((100% - 48px) / 3); } }
 
@@ -1060,9 +625,551 @@ body {
 
 @media (max-width: 560px)  { .event-card { width: 84%; } }
 
+/* =====================================================================
+   11. Inner pages: shared section layout
+   ===================================================================== */
+
+.ab-section { padding: clamp(72px, 9vw, 120px) 24px; }
+
+.ab-section--cream { background: var(--cream); }
+
+.ab-wrap { max-width: 1120px; margin: 0 auto; }
+
+.ab-head { max-width: 720px; margin: 0 auto; text-align: center; }
+
+.ab-head .kicker, .ab-life__text .kicker, .ab-intro__text .kicker { display: block; }
+
+.ab-title {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 18px;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
+}
+
+.ab-head > p:not(.kicker) { max-width: var(--measure); margin: 22px auto 0; font-size: 18px; line-height: 1.75; }
+
+/* 1. Intro: photo + statement */
+.ab-intro__grid { display: grid; gap: clamp(40px, 6vw, 88px); align-items: center; }
+
+@media (min-width: 900px) { .ab-intro__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
+
+.ab-intro__media { position: relative; isolation: isolate; margin: 0; max-width: 560px; width: 100%; justify-self: center; }
+
+.ab-intro__media img {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 90%;   /* crops the white tent roof */
+  border-radius: 120px 18px 120px 18px;
+  /* thin ring + soft shadow so the leaf shape reads even where the photo is white (the tent) */
+  box-shadow: 0 0 0 1px rgba(20, 50, 90, .10), 0 18px 40px rgba(20, 50, 90, .16);
+}
+
+.ab-intro__media::before {
+  content: ""; position: absolute; inset: 18px -18px -18px 18px; z-index: -1;
+  background: #dbe5f1; border-radius: 120px 18px 120px 18px;
+}
+
+.ab-intro__text { max-width: var(--measure); }
+
+.ab-statement {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(30px, 3.2vw, 42px); line-height: 1.2; color: var(--navy);
+}
+
+.ab-statement em { color: var(--wood); }
+
+.ab-intro__text > p:not(.kicker) { margin-top: 22px; font-size: 18px; line-height: 1.75; }
+
+.ab-intro__text .btn { margin-top: 30px; }
+
+@media (max-width: 899px) { .ab-intro__text { justify-self: center; text-align: center; } }
+
+/* =====================================================================
+   12. About page
+   ===================================================================== */
+
+/* 2. Who we are + numbers */
+.ab-who__body { max-width: var(--measure); margin: 28px auto 0; }
+
+.ab-who__body p { font-size: 18px; line-height: 1.75; }
+
+.ab-who__body p + p { margin-top: 18px; }
+
+.ab-stats {
+  list-style: none; max-width: 960px; margin: clamp(40px, 5vw, 56px) auto 0;
+  display: grid; gap: 16px; grid-template-columns: 1fr;
+}
+
+@media (min-width: 700px) { .ab-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.ab-stats li {
+  padding: 28px 20px; text-align: center; background: #fff;
+  border: 1px solid var(--line); border-radius: 16px;
+}
+
+.ab-stats strong { display: block; font-family: var(--font-display); font-weight: 400; font-size: clamp(40px, 4vw, 52px); line-height: 1; color: var(--navy); }
+
+.ab-stats span { display: block; margin-top: 10px; font-size: 15px; line-height: 1.5; color: var(--charcoal); }
+
+.ab-source { margin-top: 18px; text-align: center; font-size: 13px; color: var(--muted); }
+
+.ab-source a { color: inherit; text-underline-offset: 3px; }
+
+/* 3. How we live it out: four value cards */
+.ab-values {
+  list-style: none; margin-top: clamp(40px, 5vw, 56px);
+  display: grid; gap: 20px; grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px)  { .ab-values { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+@media (min-width: 1040px) { .ab-values { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.ab-value {
+  padding: 30px 26px 32px; background: #fff;
+  border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(20, 50, 90, .07);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.ab-value:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(20, 50, 90, .12); }
+
+.ab-value__icon {
+  display: grid; place-items: center; width: 52px; height: 52px; margin-bottom: 20px;
+  border-radius: 50%; background: var(--blue-tint); color: var(--navy);
+}
+
+.ab-value h3 { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.2; color: var(--navy); }
+
+.ab-value p { margin-top: 10px; font-size: 16px; line-height: 1.65; }
+
+/* 4. Life together: text + photo mosaic */
+.ab-life__grid { display: grid; gap: clamp(36px, 5vw, 72px); align-items: center; }
+
+@media (min-width: 960px) { .ab-life__grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
+
+.ab-life__text .ab-title { align-items: flex-start; }
+
+.ab-life__text p:not(.kicker) { margin-top: 22px; font-size: 18px; line-height: 1.75; }
+
+@media (max-width: 959px) { .ab-life__text { text-align: center; } .ab-life__text .ab-title { align-items: center; } }
+
+.ab-mosaic {
+  display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(110px, 13vw, 170px);
+}
+
+.ab-mosaic figure { margin: 0; overflow: hidden; border-radius: 14px; }
+
+.ab-mosaic figure:first-child { grid-column: span 2; grid-row: span 2; }
+
+.ab-mosaic img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+
+.ab-mosaic figure:hover img { transform: scale(1.05); }
+
+/* 5. Your first visit (navy band) */
+.ab-visit { background: var(--navy); color: var(--paper); }
+
+.ab-visit .ab-title { color: var(--paper); }
+
+.ab-visit .ab-head > p:not(.kicker) { color: rgba(253, 251, 247, .8); }
+
+.ab-visit .kicker { color: var(--gold-light); }
+
+.ab-visit .ab-title::after { background: var(--gold); }
+
+.ab-steps {
+  list-style: none; counter-reset: step; max-width: 1040px; margin: clamp(40px, 5vw, 56px) auto 0;
+  display: grid; gap: 20px; grid-template-columns: 1fr;
+}
+
+@media (min-width: 820px) { .ab-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.ab-step {
+  position: relative; padding: 30px 26px;
+  background: rgba(253, 251, 247, .06); border: 1px solid rgba(253, 251, 247, .16); border-radius: 16px;
+}
+
+.ab-step__time { display: block; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-light); }
+
+.ab-step h3 { margin-top: 10px; font-family: var(--font-display); font-weight: 400; font-size: 30px; line-height: 1.15; color: var(--paper); }
+
+.ab-step p { margin-top: 10px; font-size: 16px; line-height: 1.65; color: rgba(253, 251, 247, .8); }
+
+.ab-visit__note { margin-top: 32px; text-align: center; font-size: 16px; color: rgba(253, 251, 247, .8); }
+
+.ab-visit__note a { color: #fff; text-underline-offset: 3px; }
+
+/* 6. Verse */
+.ab-verse { max-width: 820px; margin: 0 auto; text-align: center; }
+
+.ab-verse blockquote p {
+  font-family: var(--font-display); font-style: italic; font-weight: 400;
+  font-size: clamp(30px, 3.6vw, 46px); line-height: 1.25; color: var(--navy);
+}
+
+.ab-verse cite { display: block; margin-top: 20px; font-style: normal; font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--wood); }
+
+/* =====================================================================
+   13. Our Beliefs page
+   ===================================================================== */
+
+/* Chips that jump to each belief */
+.bf-toc ol { list-style: none; margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; }
+
+.bf-toc a {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px;
+  border: 1px solid rgba(20, 50, 90, .2); background: #fff; color: var(--navy);
+  font-size: 14px; text-decoration: none; transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.bf-toc a span { font-size: 12px; font-weight: 500; letter-spacing: .08em; color: var(--wood); }
+
+.bf-toc a:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+.bf-toc a:hover span { color: var(--gold-light); }
+
+/* One belief: number + icon panel beside the text, alternating sides */
+.bf-list { display: grid; gap: clamp(28px, 4vw, 40px); margin-top: clamp(48px, 6vw, 72px); }
+
+.bf-item {
+  display: grid; gap: clamp(24px, 4vw, 56px); align-items: center;
+  padding: clamp(28px, 4vw, 48px); background: #fff;
+  border: 1px solid var(--line); border-radius: 22px; box-shadow: 0 14px 40px rgba(20, 50, 90, .07);
+  scroll-margin-top: 24px;
+}
+
+@media (min-width: 900px) {
+  .bf-item { grid-template-columns: 300px minmax(0, 1fr); }
+  .bf-item:nth-child(even) { grid-template-columns: minmax(0, 1fr) 300px; }
+  .bf-item:nth-child(even) .bf-art { order: 2; }
+}
+
+.bf-art {
+  position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; max-width: 300px; width: 100%; justify-self: center;
+  border-radius: 120px 18px 120px 18px; background: linear-gradient(160deg, var(--blue-tint), var(--cream)); color: var(--navy);
+}
+
+.bf-art svg { width: 46%; height: auto; }
+
+.bf-art__num {
+  position: absolute; left: 22px; top: 14px;
+  font-family: var(--font-display); font-size: 64px; line-height: 1; color: var(--wood);   /* 3:1+ contrast (WCAG large text) */
+}
+
+.bf-body h3 { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 3.2vw, 42px); line-height: 1.1; color: var(--navy); }
+
+.bf-body > p { margin-top: 16px; font-size: 18px; line-height: 1.75; }
+
+.bf-verse { margin: 24px 0 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--wood); }
+
+.bf-verse p { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 2vw, 26px); line-height: 1.35; color: var(--navy); }
+
+.bf-verse cite, .bf-refs dt { display: block; margin-top: 10px; font-style: normal; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--wood); }
+
+.bf-meaning { margin-top: 22px; padding: 16px 18px; border-radius: 12px; background: var(--cream); font-size: 16px; line-height: 1.65; }
+
+.bf-meaning strong { color: var(--navy); font-weight: 500; }
+
+.bf-refs { margin-top: 18px; font-size: 14px; color: #5d6166; }
+
+.bf-refs dt { display: inline; margin: 0 8px 0 0; }
+
+.bf-refs dd { display: inline; margin: 0; }
+
+/* The center: Jesus (navy, featured) */
+.bf-item--center { background: var(--navy); border-color: var(--navy); color: rgba(253, 251, 247, .85); }
+
+.bf-item--center .bf-art { background: rgba(253, 251, 247, .08); color: var(--gold-light); }
+
+.bf-item--center .bf-art__num { color: var(--gold-light); }
+
+.bf-item--center h3, .bf-item--center .bf-verse p { color: var(--paper); }
+
+.bf-item--center .bf-verse { border-color: var(--gold); }
+
+.bf-item--center .bf-verse cite { color: var(--gold-light); }
+
+.bf-item--center .bf-meaning { background: rgba(253, 251, 247, .08); }
+
+.bf-item--center .bf-meaning strong { color: #fff; }
+
+.bf-item--center .bf-refs { color: rgba(253, 251, 247, .7); }
+
+.bf-item--center .bf-refs dt { color: var(--gold-light); }
+
+.bf-tag { display: inline-block; margin-bottom: 14px; padding: 5px 13px; border-radius: 999px; background: var(--gold); color: var(--ink); font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+
+/* Church & living: photo strip inside the card */
+.bf-photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+
+.bf-photos img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; }
+
+/* The Sabbath feature */
+.bf-sabbath { position: relative; isolation: isolate; overflow: hidden; color: #fff; }
+
+.bf-sabbath__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+
+.bf-sabbath::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(10, 35, 85, .78) 0%, rgba(16, 45, 100, .70) 50%, rgba(10, 30, 75, .82) 100%);
+}
+
+.bf-sabbath .kicker { color: var(--gold-light); }
+
+.bf-sabbath .ab-title { color: #fff; }
+
+.bf-sabbath .ab-title::after { background: var(--gold); }
+
+.bf-sabbath .ab-head > p:not(.kicker) { color: rgba(255, 255, 255, .85); }
+
+.bf-sabbath__verse { margin-top: 26px; font-family: var(--font-display); font-style: italic; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.3; }
+
+.bf-sabbath__verse cite { display: block; margin-top: 10px; font-family: var(--font-ui); font-style: normal; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-light); }
+
+.bf-sabbath__grid { list-style: none; max-width: 1040px; margin: clamp(36px, 5vw, 52px) auto 0; display: grid; gap: 16px; grid-template-columns: 1fr; }
+
+@media (min-width: 640px) { .bf-sabbath__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+@media (min-width: 1000px) { .bf-sabbath__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.bf-sabbath__grid li {
+  padding: 24px 22px; border-radius: 16px; text-align: left;
+  background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+
+.bf-sabbath__grid h3 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; }
+
+.bf-sabbath__grid p { margin-top: 8px; font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, .85); }
+
+.bf-sabbath__note { margin-top: 28px; text-align: center; font-size: 15px; color: rgba(255, 255, 255, .85); }
+
+/* 28 Fundamental Beliefs */
+.bf-28 { display: grid; gap: clamp(20px, 4vw, 56px); align-items: center; max-width: 960px; margin: 0 auto; }
+
+@media (min-width: 760px) { .bf-28 { grid-template-columns: auto minmax(0, 1fr); } }
+
+.bf-28__num { font-family: var(--font-display); font-size: clamp(140px, 18vw, 220px); line-height: .85; color: var(--navy); text-align: center; }
+
+.bf-28__num span { display: block; margin-top: 10px; font-family: var(--font-ui); font-size: 12px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--wood); }
+
+.bf-28__text h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 3.8vw, 50px); line-height: 1.1; color: var(--navy); }
+
+.bf-28__text p:not(.kicker) { margin-top: 16px; font-size: 18px; line-height: 1.75; }
+
+.bf-28__text .btn { margin-top: 26px; gap: 10px; }
+
+.bf-28__text .btn svg { width: 16px; height: 16px; }
+
+@media (max-width: 759px) { .bf-28__text { text-align: center; } }
+
+/* 28 beliefs on the church blue, with an open Bible drawn faintly on the right */
+.bf-28-band { position: relative; isolation: isolate; overflow: hidden; background: var(--navy); color: rgba(253, 251, 247, .85); }
+
+.bf-28-band .bf-28 { position: relative; z-index: 1; }
+
+.bf-28-band .bf-28__num { color: var(--paper); }
+
+.bf-28-band .bf-28__num span, .bf-28-band .kicker { color: var(--gold-light); }
+
+.bf-28-band .bf-28__text h2 { color: var(--paper); }
+
+.bf-28-band .btn--white { background: var(--gold-light); border-color: var(--gold-light); color: var(--navy); }
+
+.bf-28-band .btn--white:hover { background: var(--gold-hover); border-color: var(--gold-hover); box-shadow: 0 8px 28px rgba(243, 211, 176, .3); }
+
+/* Open Bible photo on the right, fading into the blue toward the text */
+.bf-28__bible {
+  position: absolute; z-index: 0; top: 0; right: 0; height: 100%; width: 58%;
+  object-fit: cover; object-position: 60% 60%; opacity: .55; pointer-events: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+}
+
+@media (min-width: 760px) { .bf-28-band .bf-28 { max-width: 1120px; } .bf-28-band .bf-28__text { max-width: 500px; } }
+
+@media (max-width: 759px) {
+  .bf-28__bible { width: 100%; opacity: .22; -webkit-mask-image: none; mask-image: none; }
+}
+
+/* Questions (accordion) */
+.bf-faq { max-width: 820px; margin: clamp(36px, 5vw, 52px) auto 0; display: grid; gap: 12px; }
+
+.bf-faq details { background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+
+.bf-faq summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 20px 22px; cursor: pointer; list-style: none;
+  font-family: var(--font-display); font-size: clamp(22px, 2vw, 26px); line-height: 1.25; color: var(--navy);
+}
+
+.bf-faq summary::-webkit-details-marker { display: none; }
+
+.bf-faq summary::after {
+  content: ""; flex: none; width: 12px; height: 12px; margin-right: 4px;
+  border-right: 2px solid var(--wood); border-bottom: 2px solid var(--wood);
+  transform: rotate(45deg) translateY(-3px); transition: transform .25s ease;
+}
+
+.bf-faq details[open] summary::after { transform: rotate(-135deg) translateY(-3px); }
+
+.bf-faq details > div { padding: 0 22px 22px; font-size: 17px; line-height: 1.7; }
+
+.bf-faq details > div p + p { margin-top: 12px; }
+
+.bf-faq a { color: var(--navy); text-underline-offset: 3px; }
+
+/* =====================================================================
+   14. Events page
+   ===================================================================== */
+
+.cal-intro { padding: clamp(72px, 9vw, 120px) 24px clamp(56px, 7vw, 96px); text-align: center; }
+
+.cal-intro__head { max-width: 720px; margin: 0 auto; }
+
+.cal-intro__head .kicker { color: var(--wood); }
+
+.cal-intro__head h2 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
+}
+
+.cal-intro__head p:not(.kicker) { max-width: var(--measure); margin: 20px auto 0; font-size: 18px; line-height: 1.75; }
+
+.sabbath {
+  list-style: none; max-width: 1040px; margin: clamp(40px, 5vw, 56px) auto 0;
+  display: grid; gap: 20px; grid-template-columns: 1fr;
+}
+
+@media (min-width: 760px) { .sabbath { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+.sabbath__card {
+  padding: 32px 24px; text-align: center;
+  background: #fff; border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(20, 50, 90, .07);
+}
+
+.sabbath__icon {
+  display: grid; place-items: center; width: 52px; height: 52px; margin: 0 auto 18px;
+  border-radius: 50%; background: var(--blue-tint); color: var(--navy);
+}
+
+.sabbath__card h3 { font-family: var(--font-display); font-weight: 400; font-size: 28px; line-height: 1.2; color: var(--navy); }
+
+.sabbath__time { margin-top: 4px; font-family: var(--font-display); font-size: clamp(34px, 3.4vw, 42px); line-height: 1.15; color: var(--wood); }
+
+.sabbath__card p:not(.sabbath__time) { margin-top: 8px; font-size: 16px; line-height: 1.6; }
+
+.sabbath__card .sabbath__place { margin-top: 12px; font-size: 17px; }
+
+.sabbath__place a { color: inherit; text-decoration: underline; text-decoration-color: rgba(20, 50, 90, .35); text-underline-offset: 3px; }
+
+.sabbath__place a:hover { color: var(--navy); text-decoration-color: currentColor; }
+
+.calendar { background: var(--cream); padding: clamp(48px, 7vw, 96px) clamp(12px, 3vw, 24px); }
+
+.calendar__frame {
+  max-width: 1040px; margin: 0 auto; padding: clamp(6px, 1.2vw, 14px);
+  background: #fff; border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: 0 18px 48px rgba(10, 30, 60, .12);
+}
+
+.calendar__embed { display: block; width: 100%; height: clamp(520px, 72vh, 760px); border: 0; border-radius: 8px; }
+
+.calendar__link { margin-top: 18px; text-align: center; font-size: 15px; }
+
+.calendar__link a { color: var(--navy); text-underline-offset: 3px; }
+
+/* =====================================================================
+   15. Contact page
+   ===================================================================== */
+
+.contact-intro { padding: clamp(72px, 9vw, 128px) 24px clamp(64px, 8vw, 112px); }
+
+.contact-intro__grid {
+  max-width: 1120px; margin: 0 auto;
+  display: grid; gap: clamp(40px, 6vw, 88px); align-items: center;
+}
+
+@media (min-width: 900px) { .contact-intro__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
+
+.contact-intro__media { position: relative; isolation: isolate; margin: 0; max-width: 500px; width: 100%; justify-self: center; }
+
+.contact-intro__media img {
+  display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 40%;
+  border-radius: 120px 18px 120px 18px;
+}
+
+.contact-intro__media::before {          /* same shape in cream, offset behind the photo */
+  content: ""; position: absolute; inset: 18px -18px -18px 18px; z-index: -1;
+  background: var(--blue-tint); border-radius: 120px 18px 120px 18px;
+}
+
+.contact-intro__text { max-width: var(--measure); }
+
+.contact-intro__text .kicker { color: var(--wood); }
+
+.contact-intro__text h2 {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 18px;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
+}
+
+.contact-intro__lead { margin-top: 22px; font-size: 18px; line-height: 1.75; }
+
+.contact-list { list-style: none; margin-top: 32px; display: grid; gap: 24px; }
+
+.contact-list li { display: flex; gap: 18px; align-items: flex-start; }
+
+.contact-list__icon {
+  flex: none; display: grid; place-items: center; width: 48px; height: 48px;
+  border-radius: 50%; background: var(--blue-tint); color: var(--navy);
+}
+
+.contact-list h3 { padding-top: 2px; font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--wood); }
+
+.contact-list p { margin-top: 6px; font-size: 18px; line-height: 1.6; color: var(--charcoal); }
+
+.contact-list a { color: inherit; text-decoration: underline; text-decoration-color: rgba(20, 50, 90, .35); text-underline-offset: 3px; }
+
+.contact-list a:hover { color: var(--navy); text-decoration-color: currentColor; }
+
+@media (max-width: 899px) {
+  .contact-intro__text { justify-self: center; text-align: center; }
+  .contact-intro__text h2 { align-items: center; }
+  .contact-list { width: fit-content; max-width: 100%; margin-inline: auto; text-align: left; }
+}
+
+.contact-map { line-height: 0; background: var(--cream); }
+
+.contact-map iframe { display: block; width: 100%; height: clamp(320px, 45vh, 460px); border: 0; filter: saturate(.9); }
+
+/* =====================================================================
+   16. Closing invitation (end of inner pages)
+   ===================================================================== */
+
+.bl-cta { padding: clamp(80px, 10vw, 136px) 24px; text-align: center; }
+
+.bl-cta h2 {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 18px;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
+}
+
+.bl-cta > p { max-width: 46ch; margin: 18px auto 0; font-size: 18px; line-height: 1.75; }
+
+.bl-cta__actions { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+
+.bl-cta__actions .btn { min-width: 210px; }
+
+@media (max-width: 560px) { .bl-cta__actions .btn { width: 100%; } }
+
+.bl-cta__times { margin-top: 10px; font-size: 15px; color: var(--muted); }
+
+/* =====================================================================
+   17. Footer
+   ===================================================================== */
+
 /* ---------- Footer: brand row + 4 columns + bottom line ---------- */
 .footer {
-  background: #0e2441; color: #fff;          /* a shade darker than the Events section above */
+  background: var(--navy-deep); color: #fff;          /* a shade darker than the Events section above */
   font-size: 15px; line-height: 1.8;
   padding: 72px 24px 48px;
   border-top: 1px solid rgba(255, 255, 255, .12);
@@ -1086,7 +1193,7 @@ body {
 
 @media (min-width: 960px) { .footer__grid { grid-template-columns: 1fr 1.4fr 1.1fr 1fr; } }
 
-.footer__heading { margin-bottom: 14px; font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #f3d3b0; }
+.footer__heading { margin-bottom: 14px; font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gold-light); }
 
 .footer ul { list-style: none; }
 
@@ -1126,6 +1233,77 @@ body {
 
 @media (max-width: 599px) { .footer__made { flex-basis: 100%; margin-left: 0; text-align: center; } }
 
+/* =====================================================================
+   18. Intro photo collage (home page, built by js/main.js)
+   ===================================================================== */
+/* Set by js/main.js on .ic: --ic-duration (7000ms) and --ic-fade (1400ms) */
+.intro-active, .intro-active body { overflow: hidden; }
+.intro-active .reveal { animation-play-state: paused !important; }
+[data-intro] .hero__media img { transition: transform 2.4s cubic-bezier(.2, .7, .2, 1); }
+.intro-active .hero__media img { transform: scale(1.12); }
+
+.ic {
+  position: fixed; inset: 0; z-index: 9999; overflow: hidden; background: #0b0b0c;
+  transition: opacity var(--ic-fade) cubic-bezier(.4, 0, .2, 1), visibility 0s linear var(--ic-fade);
+}
+.ic.is-done { opacity: 0; visibility: hidden; pointer-events: none; }
+.ic.is-done .ic__grid {
+  transform: scale(1.08) !important; filter: blur(10px) brightness(.8); animation: none;
+  transition: transform var(--ic-fade) cubic-bezier(.4, 0, .2, 1), filter var(--ic-fade) ease;
+}
+.ic.is-done .ic__title, .ic.is-done .ic__skip, .ic.is-done .ic__bar { opacity: 0; transition: opacity .5s ease; }
+
+.ic__grid {
+  position: absolute; inset: -4vmin; display: grid; gap: 6px;
+  grid-template-columns: repeat(var(--cols), 1fr); grid-template-rows: repeat(var(--rows), 1fr);
+  animation: ic-drift calc(var(--ic-duration) - var(--ic-fade)) linear forwards;
+}
+@keyframes ic-drift { from { transform: scale(1.12); } to { transform: scale(1); } }
+
+.ic__tile { position: relative; overflow: hidden; border-radius: 4px; background: #1a1a1c; animation: ic-open .35s ease both; }
+.ic__tile--big { grid-column: span 2; grid-row: span 2; }
+.ic__tile img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.ic__tile .ic__new { opacity: 0; transform: scale(1.18); }
+.ic__tile.is-in .ic__new { animation: ic-pop 1s cubic-bezier(.2, .8, .2, 1) forwards; }
+@keyframes ic-open { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ic-pop {
+  0% { opacity: 0; transform: scale(1.18); filter: brightness(1.7); }
+  55% { opacity: 1; }
+  100% { opacity: 1; transform: scale(1); filter: brightness(1); }
+}
+
+.ic__scrim {
+  position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, .25) 0%, rgba(0, 0, 0, .7) 100%);
+}
+.ic.is-title .ic__scrim { opacity: 1; }
+.ic__title {
+  position: absolute; inset: 0; display: grid; place-content: center; padding: 24px;
+  text-align: center; color: #fff; opacity: 0; transform: translateY(14px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(.2, .7, .2, 1);
+}
+.ic.is-title .ic__title { opacity: 1; transform: none; }
+.ic__brand { font-family: "Dancing Script", cursive; font-size: clamp(44px, 9vw, 110px); line-height: 1; text-shadow: 0 4px 30px rgba(0, 0, 0, .6); }
+.ic__sub { margin-top: 12px; font-family: var(--font-ui); font-size: clamp(11px, 1.4vw, 14px); letter-spacing: .28em; text-transform: uppercase; opacity: .85; }
+
+.ic__skip {
+  position: absolute; right: 20px; bottom: 20px; z-index: 2; padding: 10px 16px;
+  font: 500 13px/1 var(--font-ui); color: #fff; cursor: pointer;
+  background: rgba(0, 0, 0, .45); border: 1px solid rgba(255, 255, 255, .35); border-radius: 999px;
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.ic__skip:hover { background: rgba(0, 0, 0, .65); }
+.ic__bar {
+  position: absolute; left: 0; bottom: 0; z-index: 2; width: 100%; height: 3px;
+  background: rgba(255, 255, 255, .8); transform-origin: left; transform: scaleX(0);
+  animation: ic-bar calc(var(--ic-duration) - var(--ic-fade)) linear forwards;
+}
+@keyframes ic-bar { to { transform: scaleX(1); } }
+
+/* =====================================================================
+   19. Entrance animation
+   ===================================================================== */
+
 /* ---------- Single entrance: fade + rise ---------- */
 .reveal {
   opacity: 0;
@@ -1141,53 +1319,49 @@ body {
 
 @keyframes hero-in { to { opacity: 1; transform: none; } }
 
-/* ================================================================
-   INNER PAGES (banner · invitation)
-   ================================================================ */
-.page-hero {
-  position: relative; isolation: isolate; overflow: hidden;
-  min-height: clamp(420px, 62vh, 600px);
-  display: flex; flex-direction: column;
+/* =====================================================================
+   20. Page-specific photo tweaks
+   ===================================================================== */
+
+/* Banner: the sign's own lettering competes with the title, so soften and deepen the photo */
+.page-hero.page-hero--beliefs .hero__media img { filter: blur(3px); transform: scale(1.04); object-position: center 45%; }
+
+/* Home "Church Services": photo extended on the left so the sign sits on the right, clear of the box */
+.parallax--sign .parallax__img { object-position: center 60%; }
+
+@media (max-width: 767px) { .parallax--sign .parallax__img { object-position: 82% 60%; } }
+
+/* Inner-page banners (About, Our Beliefs, Events, Contact): no blue overlay, photos in their own colors.
+   The home page hero (.hero) keeps its blue overlay. */
+.page-hero .hero__media::after {
+  /* neutral (not blue) shade, only enough to keep the white menu and text readable */
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(0, 0, 0, .32), transparent 75%),
+    linear-gradient(180deg, rgba(0, 0, 0, .50) 0%, rgba(0, 0, 0, .08) 26%, rgba(0, 0, 0, .08) 68%, rgba(0, 0, 0, .45) 100%);
 }
 
-.page-hero .hero__media img { object-position: center 55%; }
-
-.page-hero__content {
-  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  text-align: center; padding: 24px var(--gutter) 104px;
+/* The Bible page is almost white, so it needs a bit more shade */
+.page-hero.page-hero--beliefs .hero__media::after {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(0, 0, 0, .45), transparent 80%),
+    linear-gradient(180deg, rgba(0, 0, 0, .60) 0%, rgba(0, 0, 0, .25) 30%, rgba(0, 0, 0, .25) 65%, rgba(0, 0, 0, .55) 100%);
 }
 
-.page-hero h1 {
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(56px, 9vw, 112px); line-height: 1; letter-spacing: -.01em; color: #fff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, .45), 0 4px 24px rgba(0, 0, 0, .55), 0 0 60px rgba(0, 0, 0, .3);
-}
+/* About page banner: crop position */
+.page-hero.page-hero--about .hero__media img { object-position: center 48%; }
 
-.page-hero__sub { margin-top: 14px; font-size: clamp(16px, 1.6vw, 18px); color: var(--white-75); text-shadow: 0 1px 10px rgba(0, 0, 0, .5); }
+/* Events page banner: crop position */
+.page-hero.page-hero--events .hero__media img { object-position: center 63%; }
 
-.scroll-cue {
-  position: absolute; left: 50%; bottom: 24px; translate: -50% 0;
-  display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
-  padding: 8px 12px; border-radius: 8px;
-  font-size: 12px; letter-spacing: .24em; text-transform: uppercase; white-space: nowrap;
-  color: var(--white-75); text-decoration: none; text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
-}
+/* Home "Church Services": no blue overlay, the sign photo in its own colors (the box keeps its dark glass) */
+.parallax.parallax--sign::after { background: none; }
 
-.scroll-cue:hover { color: #fff; }
+/* Home "Church Services" box: no white border */
+.parallax--sign .parallax__box { border: none; }
 
-.scroll-cue svg { animation: cue-float 2.4s ease-in-out 2; }
-
-@keyframes cue-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
-
-/* Accessibility: "Skip to main content" link, visible only when focused with the keyboard */
-.skip-link {
-  position: absolute; left: 16px; top: -100px; z-index: 10000;
-  padding: 12px 18px; border-radius: 10px;
-  background: #fff; color: #14325a; font: 500 15px/1 var(--font-ui); text-decoration: none;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, .25);
-}
-.skip-link:focus { top: 16px; outline: 2px solid #14325a; outline-offset: 2px; }
-main:focus { outline: none; }
+/* =====================================================================
+   21. Reduced motion (kept last so these always win)
+   ===================================================================== */
 
 /* Reduced motion: kept last so these always win */
 @media (prefers-reduced-motion: reduce) { .scroll-cue svg { animation: none; } }

@@ -2,5 +2,4 @@
 User-agent: *
 Allow: /
 
-# When the site has its web address, add a sitemap line, e.g.:
-# Sitemap: https://www.yourchurch.org/sitemap.xml
+Sitemap: https://oliver46.github.io/Richmond-ky-sda-church/sitemap.xml
