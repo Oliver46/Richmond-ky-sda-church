@@ -40,8 +40,34 @@
   <link rel="preload" as="image" href="img/richmond-church-exterior.webp" imagesrcset="img/richmond-church-exterior-960.webp 960w, img/richmond-church-exterior.webp 1920w" imagesizes="100vw" type="image/webp">
 
   <link rel="stylesheet" href="style.css">
+  <!-- Structured data for search engines. When the site has its web address, add "url": "https://…" and "logo": "https://…/img/richmond-sda-logo.webp". -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Church",
+    "name": "Richmond Seventh-day Adventist Church",
+    "alternateName": "Richmond SDA Church",
+    "description": "A Christ-centered, Bible-based Seventh-day Adventist church family in Richmond, Kentucky.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "3031 Berea Rd",
+      "addressLocality": "Richmond",
+      "addressRegion": "KY",
+      "postalCode": "40475",
+      "addressCountry": "US"
+    },
+    "openingHoursSpecification": [
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": "https://schema.org/Saturday", "opens": "09:30", "closes": "12:30" }
+    ],
+    "event": [
+      { "@type": "Event", "name": "Sabbath School", "eventSchedule": { "@type": "Schedule", "byDay": "https://schema.org/Saturday", "startTime": "09:30", "repeatFrequency": "P1W", "scheduleTimezone": "America/New_York" }, "location": { "@type": "Place", "name": "Richmond Seventh-day Adventist Church", "address": "3031 Berea Rd, Richmond, KY 40475" } },
+      { "@type": "Event", "name": "Worship Service", "eventSchedule": { "@type": "Schedule", "byDay": "https://schema.org/Saturday", "startTime": "11:00", "repeatFrequency": "P1W", "scheduleTimezone": "America/New_York" }, "location": { "@type": "Place", "name": "Richmond Seventh-day Adventist Church", "address": "3031 Berea Rd, Richmond, KY 40475" } }
+    ]
+  }
+  </script>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to main content</a>
 
 <section class="page-hero" aria-labelledby="page-title">
   <div class="hero__media" aria-hidden="true">
@@ -58,7 +84,7 @@
         <li><a href="index.html#services">Services</a></li>
         <li><a href="beliefs.html">Our Beliefs</a></li>
         <li><a href="events.html">Events</a></li>
-        <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener noreferrer">Adventist Giving</a></li>
+        <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener noreferrer">Adventist Giving<span class="visually-hidden"> (opens in a new tab)</span></a></li>
       </ul>
 
       <a class="btn btn--white nav__cta" href="contact.html" aria-current="page">Contact Us</a>
@@ -80,7 +106,7 @@
   </a>
 </section>
 
-<main class="site">
+<main class="site" id="main" tabindex="-1">
 
   <!-- Photo + contact details -->
   <section class="contact-intro" id="contact-info" aria-labelledby="contact-title">
@@ -179,12 +205,12 @@
       <nav aria-labelledby="f-resources">
         <h2 class="footer__heading" id="f-resources">Ministries &amp; Resources</h2>
         <ul>
-          <li><a href="https://www.nadadventist.org/" target="_blank" rel="noopener">North American Division</a></li>
-          <li><a href="https://www.adventist.org/" target="_blank" rel="noopener">General Conference</a></li>
-          <li><a href="https://www.hopetv.org/" target="_blank" rel="noopener">Hope Channel</a></li>
-          <li><a href="https://www.itiswritten.com/" target="_blank" rel="noopener">It Is Written</a></li>
-          <li><a href="https://egwwritings.org/" target="_blank" rel="noopener">Ellen White Writings</a></li>
-          <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener">Adventist Giving</a></li>
+          <li><a href="https://www.nadadventist.org/" target="_blank" rel="noopener">North American Division<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a href="https://www.adventist.org/" target="_blank" rel="noopener">General Conference<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a href="https://www.hopetv.org/" target="_blank" rel="noopener">Hope Channel<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a href="https://www.itiswritten.com/" target="_blank" rel="noopener">It Is Written<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a href="https://egwwritings.org/" target="_blank" rel="noopener">Ellen White Writings<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+          <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener">Adventist Giving<span class="visually-hidden"> (opens in a new tab)</span></a></li>
         </ul>
       </nav>
       <div>
@@ -225,7 +251,7 @@
     <li><a href="index.html#services">Services</a></li>
     <li><a href="beliefs.html">Our Beliefs</a></li>
     <li><a href="events.html">Events</a></li>
-    <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener noreferrer">Adventist Giving</a></li>
+    <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener noreferrer">Adventist Giving<span class="visually-hidden"> (opens in a new tab)</span></a></li>
   </ul>
   <a class="btn btn--white" href="contact.html" aria-current="page">Contact Us</a>
 </div>

@@ -112,8 +112,8 @@
   /* ---------- DOM ---------- */
   var overlay = document.createElement("div");
   overlay.className = "ic";
-  overlay.setAttribute("role", "presentation");
-  overlay.setAttribute("aria-hidden", "true");
+  overlay.setAttribute("role", "region");
+  overlay.setAttribute("aria-label", "Welcome photo collage");
 
   var grid = document.createElement("div");
   grid.className = "ic__grid";

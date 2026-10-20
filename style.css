@@ -364,7 +364,7 @@ body {
 
 .bf-art__num {
   position: absolute; left: 22px; top: 14px;
-  font-family: var(--font-display); font-size: 64px; line-height: 1; color: rgba(138, 83, 40, .35);
+  font-family: var(--font-display); font-size: 64px; line-height: 1; color: var(--wood);   /* 3:1+ contrast (WCAG large text) */
 }
 
 .bf-body h3 { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 3.2vw, 42px); line-height: 1.1; color: var(--navy); }
@@ -392,7 +392,7 @@ body {
 
 .bf-item--center .bf-art { background: rgba(253, 251, 247, .08); color: #f3d3b0; }
 
-.bf-item--center .bf-art__num { color: rgba(243, 211, 176, .45); }
+.bf-item--center .bf-art__num { color: #f3d3b0; }
 
 .bf-item--center h3, .bf-item--center .bf-verse p { color: #fdfbf7; }
 
@@ -1178,6 +1178,16 @@ body {
 .scroll-cue svg { animation: cue-float 2.4s ease-in-out 2; }
 
 @keyframes cue-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+/* Accessibility: "Skip to main content" link, visible only when focused with the keyboard */
+.skip-link {
+  position: absolute; left: 16px; top: -100px; z-index: 10000;
+  padding: 12px 18px; border-radius: 10px;
+  background: #fff; color: #14325a; font: 500 15px/1 var(--font-ui); text-decoration: none;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .25);
+}
+.skip-link:focus { top: 16px; outline: 2px solid #14325a; outline-offset: 2px; }
+main:focus { outline: none; }
 
 /* Reduced motion: kept last so these always win */
 @media (prefers-reduced-motion: reduce) { .scroll-cue svg { animation: none; } }

@@ -1,0 +1,6 @@
+# Allow all search engines to crawl the whole site.
+User-agent: *
+Allow: /
+
+# When the site has its web address, add a sitemap line, e.g.:
+# Sitemap: https://www.yourchurch.org/sitemap.xml
