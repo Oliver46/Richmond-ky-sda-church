@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="img/icons/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="img/icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#14325a">
+  <!-- Link previews (Facebook, WhatsApp, iMessage, X, LinkedIn…).
+       When the site has its web address, put the full address in front of the image path,
+       e.g. content="https://www.yourchurch.org/img/og/og-beliefs.jpg", and add <meta property="og:url" content="(full page address)">. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Richmond Seventh-day Adventist Church">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Our Beliefs | Richmond Seventh-day Adventist Church">
+  <meta property="og:description" content="What Seventh-day Adventists believe: the Bible, Jesus and salvation, the Sabbath, the church and the hope of Jesus’ return. Learn about our faith at the Richmond SDA Church in Richmond, KY.">
+  <meta property="og:image" content="img/og/og-beliefs.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Richmond SDA Church sign, with the words Rooted in Scripture. Centered on Jesus.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Our Beliefs | Richmond Seventh-day Adventist Church">
+  <meta name="twitter:description" content="What Seventh-day Adventists believe: the Bible, Jesus and salvation, the Sabbath, the church and the hope of Jesus’ return. Learn about our faith at the Richmond SDA Church in Richmond, KY.">
+  <meta name="twitter:image" content="img/og/og-beliefs.jpg">
+  <meta name="twitter:image:alt" content="The Richmond SDA Church sign, with the words Rooted in Scripture. Centered on Jesus.">
+  <title>Our Beliefs | Richmond Seventh-day Adventist Church</title>
+  <meta name="description" content="What Seventh-day Adventists believe: the Bible, Jesus and salvation, the Sabbath, the church and the hope of Jesus’ return. Learn about our faith at the Richmond SDA Church in Richmond, KY.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:ital,wght@0,400&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500&amp;display=swap">
+
+  <!-- Background photo: preload so it paints with the headline -->
+  <link rel="preload" as="image" href="img/beliefs-hero-bible.webp" imagesrcset="img/beliefs-hero-bible-960.webp 960w, img/beliefs-hero-bible.webp 1920w" imagesizes="100vw" type="image/webp">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #fff;
+      --white-75: rgba(255, 255, 255, .75);
+      --gutter: clamp(24px, 4vw, 48px);
+      --font-display: "Instrument Serif", Georgia, serif;
+      --font-brand: "Dancing Script", cursive;
+      --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --ease: cubic-bezier(.2, .7, .2, 1);
+    }
+
+    body {
+      background: #000;
+      color: var(--white);
+      font-family: var(--font-ui);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip-path: inset(50%); white-space: nowrap;
+    }
+
+    /* Visible keyboard focus everywhere */
+    :focus-visible { outline: 2px solid var(--white); outline-offset: 4px; border-radius: 999px; }
+
+    /* ================================================================
+       HERO
+       ================================================================ */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;               /* grows on short screens instead of clipping text */
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Background photo + 20% black layer */
+    .hero__media { position: absolute; inset: 0; z-index: -1; }
+    .hero__media picture,
+    .hero__media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .hero__media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      /* Transparent blue overlay: a little deeper at the top (nav) and
+         bottom, lighter in the middle so the sanctuary still shows */
+      background:
+        linear-gradient(180deg,
+          rgba(10, 35, 85, .62) 0%,
+          rgba(16, 55, 120, .42) 45%,
+          rgba(10, 30, 75, .66) 100%);
+    }
+
+    /* ---------- Navigation ---------- */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 20px var(--gutter);
+    }
+    .nav__brand {
+      font-family: var(--font-brand);
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1;
+      color: var(--white);
+      text-decoration: none;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, .35);
+      display: inline-flex;
+      align-items: center;
+    }
+    .nav__brand img {
+      display: block;
+      height: clamp(36px, 4.2vw, 48px);
+      width: auto;
+      filter: drop-shadow(0 1px 8px rgba(0, 0, 0, .35));
+    }
+    .nav__links {
+      display: flex;
+      gap: clamp(20px, 2.6vw, 36px);
+      list-style: none;
+    }
+    .nav__links a {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--white);
+      text-decoration: none;
+      opacity: .9;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, .4);
+      transition: opacity .2s ease;
+    }
+    .nav__links a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 28px;
+      border-radius: 999px;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn--white { background: var(--white); color: #111; border: 1px solid var(--white); }
+    .btn--white:hover { box-shadow: 0 8px 28px rgba(255, 255, 255, .28); }
+    .btn--glass {
+      background: rgba(255, 255, 255, .12);
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, .35);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+    }
+    .btn--glass:hover { background: rgba(255, 255, 255, .2); }
+    .nav__cta { min-height: 42px; padding: 0 22px; font-size: 13px; letter-spacing: .02em; }
+
+    .nav__toggle {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center; justify-content: center;
+      border: 1px solid rgba(255, 255, 255, .35);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      color: var(--white);
+      cursor: pointer;
+    }
+    .nav__toggle svg { width: 20px; height: 20px; }
+
+    /* ---------- Centre content ---------- */
+    .hero__content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px var(--gutter) 96px;
+    }
+    .hero__pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .35);
+      background: rgba(255, 255, 255, .12);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: .02em;
+    }
+    .hero__pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--white); box-shadow: 0 0 10px var(--white); }
+
+    .hero__title {
+      max-width: 1024px;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 48px;                                       /* mobile */
+      line-height: .95;
+      letter-spacing: -.01em;
+      color: var(--white);
+      /* soft white glow + a faint shadow so it reads over the bright wood */
+      text-shadow: 0 2px 4px rgba(0, 0, 0, .45), 0 4px 24px rgba(0, 0, 0, .55), 0 0 60px rgba(0, 0, 0, .3);
+    }
+    .hero__title em { display: block; font-style: italic; }
+    @media (min-width: 640px)  { .hero__title { font-size: clamp(72px, 10vw, 96px); } }   /* tablet */
+    @media (min-width: 1024px) { .hero__title { font-size: 120px; } }                     /* desktop */
+
+    .hero__text {
+      max-width: 576px;
+      margin-top: 28px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--white-75);
+      /* layered shadow keeps 75% white readable over the busy sanctuary photo */
+      text-shadow: 0 1px 2px rgba(0, 0, 0, .55), 0 2px 18px rgba(0, 0, 0, .65);
+    }
+    @media (min-width: 640px) { .hero__text { font-size: 18px; } }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 36px;
+    }
+
+    .hero__scroll {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      translate: -50% 0;
+      font-size: 12px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--white-75);
+      text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
+    }
+
+    /* ---------- Mobile menu ---------- */
+    .menu {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      padding: 20px var(--gutter) 40px;
+      background: rgba(0, 0, 0, .82);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease, visibility 0s linear .3s;
+    }
+    .menu.is-open { opacity: 1; visibility: visible; transition: opacity .3s ease; }
+    .menu__top { display: flex; align-items: center; justify-content: space-between; }
+    .menu__links {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      list-style: none;
+    }
+    .menu__links a {
+      font-family: var(--font-display);
+      font-size: 40px;
+      line-height: 1;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .menu .btn { align-self: flex-start; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 980px) {
+      .nav__links, .nav__cta { display: none; }
+      .nav__toggle { display: inline-flex; }
+    }
+    @media (max-width: 560px) {
+      .hero__actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 360px; }
+      .hero__actions .btn { width: 100%; white-space: normal; text-align: center; }
+      .hero__content { padding-bottom: 88px; }
+    }
+    @media (max-height: 640px) {
+      .hero__content { justify-content: flex-start; padding-top: 24px; }
+    }
+
+    /* ================================================================
+       HOME SECTIONS (About Us · Church Services parallax · Our Beliefs)
+       ================================================================ */
+    :root {
+      --navy: #14325a;                 /* blue of the church sign: headings and buttons */
+      --navy-hover: #1d4475;
+      --wood: #8a5328;                 /* warm wood accent (ornament) — AA on white */
+      --cream: #f6f1e8;                /* soft warm background */
+      --charcoal: #333a40;
+      --deep-glass: rgba(14, 30, 52, .84);
+      --measure: 60ch;
+    }
+    .site { background: #fff; color: var(--charcoal); }
+    .site :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+
+    /* Centered text blocks */
+    .block { padding: clamp(64px, 8vw, 112px) 24px; text-align: center; }
+    .block--cream { background: var(--cream); }
+    .block__inner { max-width: 720px; margin: 0 auto; }
+    .block h2 {
+      display: inline-flex; flex-direction: column; align-items: center; gap: 18px;
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em;
+      color: var(--navy);
+    }
+    /* Accent: short warm-wood bar centered below each title */
+    .block h2::after { content: ""; display: block; width: 64px; height: 3px; border-radius: 999px; background: var(--wood); }
+    .block__inner > p { max-width: var(--measure); margin: 24px auto 0; font-size: 18px; line-height: 1.75; }
+    .block .btn { margin-top: 32px; }
+
+    .btn--navy-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+    .btn--navy-outline:hover { background: var(--navy); color: #fff; }
+    .btn--lg { min-height: 52px; padding: 0 28px; font-weight: 500; }
+
+    /* Parallax */
+    .parallax {
+      position: relative; overflow: hidden; isolation: isolate;
+      min-height: clamp(460px, 62vh, 620px);
+      display: flex; align-items: center;
+      padding: 48px clamp(16px, 5vw, 64px);
+    }
+    .parallax__img {
+      position: absolute; left: 0; right: 0; top: -15%; height: 130%; z-index: -1;
+      width: 100%; object-fit: cover; object-position: center 62%;
+      will-change: transform;
+    }
+    /* Transparent blue overlay (same as the hero) */
+    .parallax::after {
+      content: "";
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        linear-gradient(180deg,
+          rgba(10, 35, 85, .62) 0%,
+          rgba(16, 55, 120, .42) 45%,
+          rgba(10, 30, 75, .66) 100%);
+      pointer-events: none;
+    }
+    .parallax__box {
+      max-width: 540px; width: 100%;
+      background: var(--deep-glass);
+      -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+      border: 2px solid #fff;
+      border-radius: 14px;
+      color: #fff; padding: clamp(28px, 3.4vw, 44px);
+      text-align: center;
+    }
+    .parallax--right { justify-content: flex-end; }
+    .parallax--right .parallax__box { margin-right: clamp(0px, 8vw, 140px); }
+    .parallax--left  .parallax__box { margin-left:  clamp(0px, 8vw, 140px); }
+    .parallax__box h2 {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(32px, 3.4vw, 44px); line-height: 1.1; color: #fff;
+    }
+    .schedule { margin-top: 22px; font-size: 18px; line-height: 1.75; }
+    .schedule dt { margin-bottom: 4px; font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: #f3d3b0; }
+    .schedule dd { margin: 0; }
+    .btn--light { background: #fff; color: #111; border: 1px solid #fff; }
+    .btn--light:hover { box-shadow: 0 8px 28px rgba(255, 255, 255, .28); }
+    .parallax__btn { margin-top: 24px; }
+
+    @media (max-width: 767px) {
+      .parallax { justify-content: center; }
+      .parallax .parallax__box { margin: 0; }
+    }
+    @media (max-width: 560px) {
+      .btn--lg { white-space: normal; text-align: center; height: auto; padding: 12px 20px; }
+    }
+
+    /* ---------- Events (carousel of cards on the sign's blue) ---------- */
+    .events { background: var(--navy); color: #fdfbf7; padding: clamp(80px, 9vw, 110px) 0; }
+    .events__inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .kicker {
+      display: inline-block; margin: 0 0 14px;
+      font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+      color: #f3d3b0;
+    }
+    .events__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 48px; }
+    .events__heading {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: #fdfbf7;
+    }
+    .events__copy { margin-top: 16px; max-width: 520px; font-size: 16px; line-height: 1.65; color: rgba(253, 251, 247, .78); }
+    .events__controls { display: flex; gap: 10px; flex: 0 0 auto; }
+    .round-btn {
+      display: grid; place-items: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: transparent; color: #fdfbf7; border: 1.5px solid rgba(253, 251, 247, .45);
+      cursor: pointer; transition: background .25s ease, color .25s ease, border-color .25s ease, opacity .25s ease;
+    }
+    .round-btn svg { width: 18px; height: 18px; }
+    .round-btn:hover { background: #fdfbf7; color: var(--navy); border-color: #fdfbf7; }
+    .round-btn:disabled { opacity: .35; cursor: default; background: transparent; color: #fdfbf7; border-color: rgba(253, 251, 247, .45); }
+    .events :focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+    .events-track {
+      display: flex; gap: 24px; list-style: none;
+      overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+      padding-bottom: 8px; scrollbar-width: none;
+    }
+    .events-track::-webkit-scrollbar { display: none; }
+    .event-card {
+      flex: 0 0 auto; width: calc((100% - 72px) / 4);
+      scroll-snap-align: start;
+      background: rgba(253, 251, 247, .06);
+      border: 1px solid rgba(253, 251, 247, .14);
+      border-radius: 18px; overflow: hidden;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .event-card:hover { transform: translateY(-4px); border-color: rgba(253, 251, 247, .3); }
+    .event-card__media { position: relative; height: 190px; }
+    .event-card__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .event-card__badge {
+      position: absolute; top: 14px; left: 14px;
+      padding: 5px 13px; border-radius: 999px;
+      background: #e2bd78; color: #1a1a17;
+      font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .event-card__body { padding: 22px 22px 26px; }
+    .event-card__when { display: block; margin-bottom: 8px; font-size: 11.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: #f3d3b0; }
+    .event-card__title { margin-bottom: 10px; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; color: #fdfbf7; }
+    .event-card__copy { font-size: 14px; line-height: 1.6; color: rgba(253, 251, 247, .74); }
+    .events__cta { margin-top: 48px; text-align: center; }
+    .btn--outline-light { background: transparent; color: #fdfbf7; border: 1.5px solid rgba(253, 251, 247, .55); }
+    .btn--outline-light:hover { background: #fdfbf7; color: var(--navy); border-color: #fdfbf7; }
+
+    @media (max-width: 1100px) { .event-card { width: calc((100% - 48px) / 3); } }
+    @media (max-width: 860px)  { .event-card { width: calc((100% - 24px) / 2); } }
+    @media (max-width: 720px) {
+      .events__inner { padding: 0 24px; }
+      .events__head { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .events__controls { align-self: flex-end; }
+    }
+    @media (max-width: 560px)  { .event-card { width: 84%; } }
+    @media (prefers-reduced-motion: reduce) { .events-track { scroll-behavior: auto; } .event-card { transition: none; } }
+
+    /* ---------- Footer: brand row + 4 columns + bottom line ---------- */
+    .footer {
+      background: #0e2441; color: #fff;          /* a shade darker than the Events section above */
+      font-size: 15px; line-height: 1.8;
+      padding: 72px 24px 48px;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+    }
+    .footer__inner { max-width: 1160px; margin: 0 auto; }
+    .footer__brand, .footer__bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+    .footer__brand { gap: 16px 32px; padding-bottom: 36px; border-bottom: 1px solid rgba(255, 255, 255, .2); }
+    .footer__logo { display: inline-block; border-radius: 6px; }
+    .footer__logo img { display: block; height: 56px; width: auto; }
+    .footer__brand p { font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, .85); }
+    .footer__grid { display: grid; gap: 36px 32px; grid-template-columns: 1fr; padding-top: 40px; }
+    @media (min-width: 600px) { .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 960px) { .footer__grid { grid-template-columns: 1fr 1.4fr 1.1fr 1fr; } }
+    .footer__heading { margin-bottom: 14px; font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #f3d3b0; }
+    .footer ul { list-style: none; }
+    .footer li + li { margin-top: 4px; }
+    .footer a { color: #fff; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .footer a.remove-decoration, .footer a.remove-decoration:hover { text-decoration: none; }
+    .footer address { font-style: normal; }
+    .footer__note { margin-top: 12px; font-size: 14px; line-height: 1.7; color: rgba(255, 255, 255, .85); }
+    .footer__note a { text-decoration: underline; text-underline-offset: 3px; }
+    .footer__bottom { gap: 8px 24px; margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .45); }
+    .footer__copy { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+    .footer__mark { width: 21px; height: 24px; overflow: hidden; flex: none; }
+    .footer__mark img { display: block; height: 24px; width: auto; max-width: none; }
+    .footer__made { font-size: 12px; margin-left: auto; }
+    .footer__credit { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; line-height: 1; color: rgba(255, 255, 255, .85); transition: opacity .2s ease; }
+    .footer__credit-text, .footer__credit picture { display: block; }
+    .footer__credit img { display: block; width: 30px; height: auto; border-radius: 3px; }
+    .footer__credit:hover { opacity: .8; }
+    .footer :focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 4px; }
+    @media (max-width: 599px) { .footer__made { flex-basis: 100%; margin-left: 0; text-align: center; } }
+
+    /* ---------- Single entrance: fade + rise ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: hero-in .9s var(--ease) forwards;
+    }
+    .reveal--2 { animation-delay: .08s; }
+    .reveal--3 { animation-delay: .16s; }
+    .reveal--4 { animation-delay: .24s; }
+    @keyframes hero-in { to { opacity: 1; transform: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; animation: none; }
+      .menu, .btn, .nav__links a { transition: none; }
+    }
+
+    /* ================================================================
+       INNER PAGES (banner · invitation)
+       ================================================================ */
+    .page-hero {
+      position: relative; isolation: isolate; overflow: hidden;
+      min-height: clamp(420px, 62vh, 600px);
+      display: flex; flex-direction: column;
+    }
+    .page-hero .hero__media img { object-position: center 55%; }
+    .page-hero__content {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 24px var(--gutter) 104px;
+    }
+    .page-hero h1 {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(56px, 9vw, 112px); line-height: 1; letter-spacing: -.01em; color: #fff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, .45), 0 4px 24px rgba(0, 0, 0, .55), 0 0 60px rgba(0, 0, 0, .3);
+    }
+    .page-hero__sub { margin-top: 14px; font-size: clamp(16px, 1.6vw, 18px); color: var(--white-75); text-shadow: 0 1px 10px rgba(0, 0, 0, .5); }
+    .scroll-cue {
+      position: absolute; left: 50%; bottom: 24px; translate: -50% 0;
+      display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
+      padding: 8px 12px; border-radius: 8px;
+      font-size: 12px; letter-spacing: .24em; text-transform: uppercase; white-space: nowrap;
+      color: var(--white-75); text-decoration: none; text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
+    }
+    .scroll-cue:hover { color: #fff; }
+    .scroll-cue svg { animation: cue-float 2.4s ease-in-out 2; }
+    @keyframes cue-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+
+    .nav__links a[aria-current="page"] { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+    .menu__links a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 8px; }
+
+    .bl-cta { padding: clamp(80px, 10vw, 136px) 24px; text-align: center; }
+    .bl-cta h2 {
+      display: inline-flex; flex-direction: column; align-items: center; gap: 18px;
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
+    }
+    .bl-cta h2::after { content: ""; display: block; width: 64px; height: 3px; border-radius: 999px; background: var(--wood); }
+    .bl-cta > p { max-width: 46ch; margin: 18px auto 0; font-size: 18px; line-height: 1.75; }
+    .bl-cta__actions { margin-top: 32px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .bl-cta__actions .btn { min-width: 210px; }
+    .btn--navy { background: var(--navy); color: #fff; border: 1.5px solid var(--navy); }
+    .btn--navy:hover { background: var(--navy-hover); border-color: var(--navy-hover); box-shadow: 0 8px 24px rgba(20, 50, 90, .25); }
+    @media (max-width: 560px) { .bl-cta__actions .btn { width: 100%; } }
+    @media (prefers-reduced-motion: reduce) { .scroll-cue svg { animation: none; } }
+
+    /* ================================================================
+       SHARED INNER-PAGE SECTIONS (heading, intro photo)
+       ================================================================ */
+    .ab-section { padding: clamp(72px, 9vw, 120px) 24px; }
+    .ab-section--cream { background: var(--cream); }
+    .ab-wrap { max-width: 1120px; margin: 0 auto; }
+    .ab-head { max-width: 720px; margin: 0 auto; text-align: center; }
+    .kicker--wood { color: var(--wood); }
+    .ab-head .kicker, .ab-life__text .kicker, .ab-intro__text .kicker { display: block; }
+    .ab-title {
+      display: inline-flex; flex-direction: column; align-items: center; gap: 18px;
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: var(--navy);
+    }
+    .ab-title::after { content: ""; display: block; width: 64px; height: 3px; border-radius: 999px; background: var(--wood); }
+    .ab-head > p:not(.kicker) { max-width: var(--measure); margin: 22px auto 0; font-size: 18px; line-height: 1.75; }
+
+    /* 1. Intro: photo + statement */
+    .ab-intro__grid { display: grid; gap: clamp(40px, 6vw, 88px); align-items: center; }
+    @media (min-width: 900px) { .ab-intro__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); } }
+    .ab-intro__media { position: relative; isolation: isolate; margin: 0; max-width: 560px; width: 100%; justify-self: center; }
+    .ab-intro__media img {
+      display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: 50% 90%;   /* crops the white tent roof */
+      border-radius: 120px 18px 120px 18px;
+      /* thin ring + soft shadow so the leaf shape reads even where the photo is white (the tent) */
+      box-shadow: 0 0 0 1px rgba(20, 50, 90, .10), 0 18px 40px rgba(20, 50, 90, .16);
+    }
+    .ab-intro__media::before {
+      content: ""; position: absolute; inset: 18px -18px -18px 18px; z-index: -1;
+      background: #dbe5f1; border-radius: 120px 18px 120px 18px;
+    }
+    .ab-intro__text { max-width: var(--measure); }
+    .ab-statement {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(30px, 3.2vw, 42px); line-height: 1.2; color: var(--navy);
+    }
+    .ab-statement em { color: var(--wood); }
+    .ab-intro__text > p:not(.kicker) { margin-top: 22px; font-size: 18px; line-height: 1.75; }
+    .ab-intro__text .btn { margin-top: 30px; }
+    @media (max-width: 899px) { .ab-intro__text { justify-self: center; text-align: center; } }
+
+
+    /* ================================================================
+       BELIEFS PAGE (core beliefs · Sabbath · 28 beliefs · questions)
+       ================================================================ */
+    /* Chips that jump to each belief */
+    .bf-toc ol { list-style: none; margin-top: 30px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; }
+    .bf-toc a {
+      display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px;
+      border: 1px solid rgba(20, 50, 90, .2); background: #fff; color: var(--navy);
+      font-size: 14px; text-decoration: none; transition: background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .bf-toc a span { font-size: 12px; font-weight: 500; letter-spacing: .08em; color: var(--wood); }
+    .bf-toc a:hover { background: var(--navy); color: #fff; border-color: var(--navy); }
+    .bf-toc a:hover span { color: #f3d3b0; }
+
+    /* One belief: number + icon panel beside the text, alternating sides */
+    .bf-list { display: grid; gap: clamp(28px, 4vw, 40px); margin-top: clamp(48px, 6vw, 72px); }
+    .bf-item {
+      display: grid; gap: clamp(24px, 4vw, 56px); align-items: center;
+      padding: clamp(28px, 4vw, 48px); background: #fff;
+      border: 1px solid #e6e1d6; border-radius: 22px; box-shadow: 0 14px 40px rgba(20, 50, 90, .07);
+      scroll-margin-top: 24px;
+    }
+    @media (min-width: 900px) {
+      .bf-item { grid-template-columns: 300px minmax(0, 1fr); }
+      .bf-item:nth-child(even) { grid-template-columns: minmax(0, 1fr) 300px; }
+      .bf-item:nth-child(even) .bf-art { order: 2; }
+    }
+    .bf-art {
+      position: relative; display: grid; place-items: center; aspect-ratio: 1 / 1; max-width: 300px; width: 100%; justify-self: center;
+      border-radius: 120px 18px 120px 18px; background: linear-gradient(160deg, #e8eef6, #f6f1e8); color: var(--navy);
+    }
+    .bf-art svg { width: 46%; height: auto; }
+    .bf-art__num {
+      position: absolute; left: 22px; top: 14px;
+      font-family: var(--font-display); font-size: 64px; line-height: 1; color: rgba(138, 83, 40, .35);
+    }
+    .bf-body h3 { font-family: var(--font-display); font-weight: 400; font-size: clamp(32px, 3.2vw, 42px); line-height: 1.1; color: var(--navy); }
+    .bf-body > p { margin-top: 16px; font-size: 18px; line-height: 1.75; }
+    .bf-verse { margin: 24px 0 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--wood); }
+    .bf-verse p { font-family: var(--font-display); font-style: italic; font-size: clamp(22px, 2vw, 26px); line-height: 1.35; color: var(--navy); }
+    .bf-verse cite, .bf-refs dt { display: block; margin-top: 10px; font-style: normal; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--wood); }
+    .bf-meaning { margin-top: 22px; padding: 16px 18px; border-radius: 12px; background: var(--cream); font-size: 16px; line-height: 1.65; }
+    .bf-meaning strong { color: var(--navy); font-weight: 500; }
+    .bf-refs { margin-top: 18px; font-size: 14px; color: #5d6166; }
+    .bf-refs dt { display: inline; margin: 0 8px 0 0; }
+    .bf-refs dd { display: inline; margin: 0; }
+
+    /* The center: Jesus (navy, featured) */
+    .bf-item--center { background: var(--navy); border-color: var(--navy); color: rgba(253, 251, 247, .85); }
+    .bf-item--center .bf-art { background: rgba(253, 251, 247, .08); color: #f3d3b0; }
+    .bf-item--center .bf-art__num { color: rgba(243, 211, 176, .45); }
+    .bf-item--center h3, .bf-item--center .bf-verse p { color: #fdfbf7; }
+    .bf-item--center .bf-verse { border-color: #e2bd78; }
+    .bf-item--center .bf-verse cite { color: #f3d3b0; }
+    .bf-item--center .bf-meaning { background: rgba(253, 251, 247, .08); }
+    .bf-item--center .bf-meaning strong { color: #fff; }
+    .bf-item--center .bf-refs { color: rgba(253, 251, 247, .7); }
+    .bf-item--center .bf-refs dt { color: #f3d3b0; }
+    .bf-tag { display: inline-block; margin-bottom: 14px; padding: 5px 13px; border-radius: 999px; background: #e2bd78; color: #1a1a17; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; }
+
+    /* Church & living: photo strip inside the card */
+    .bf-photos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+    .bf-photos img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 12px; }
+
+    /* The Sabbath feature */
+    .bf-sabbath { position: relative; isolation: isolate; overflow: hidden; color: #fff; }
+    .bf-sabbath__bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center 55%; }
+    .bf-sabbath::after {
+      content: ""; position: absolute; inset: 0; z-index: -1;
+      background: linear-gradient(180deg, rgba(10, 35, 85, .78) 0%, rgba(16, 45, 100, .70) 50%, rgba(10, 30, 75, .82) 100%);
+    }
+    .bf-sabbath .kicker { color: #f3d3b0; }
+    .bf-sabbath .ab-title { color: #fff; }
+    .bf-sabbath .ab-title::after { background: #e2bd78; }
+    .bf-sabbath .ab-head > p:not(.kicker) { color: rgba(255, 255, 255, .85); }
+    .bf-sabbath__verse { margin-top: 26px; font-family: var(--font-display); font-style: italic; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.3; }
+    .bf-sabbath__verse cite { display: block; margin-top: 10px; font-family: var(--font-ui); font-style: normal; font-size: 12px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #f3d3b0; }
+    .bf-sabbath__grid { list-style: none; max-width: 1040px; margin: clamp(36px, 5vw, 52px) auto 0; display: grid; gap: 16px; grid-template-columns: 1fr; }
+    @media (min-width: 640px) { .bf-sabbath__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1000px) { .bf-sabbath__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+    .bf-sabbath__grid li {
+      padding: 24px 22px; border-radius: 16px; text-align: left;
+      background: rgba(255, 255, 255, .1); border: 1px solid rgba(255, 255, 255, .22);
+      -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    }
+    .bf-sabbath__grid h3 { font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; }
+    .bf-sabbath__grid p { margin-top: 8px; font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, .85); }
+    .bf-sabbath__note { margin-top: 28px; text-align: center; font-size: 15px; color: rgba(255, 255, 255, .85); }
+
+    /* 28 Fundamental Beliefs */
+    .bf-28 { display: grid; gap: clamp(20px, 4vw, 56px); align-items: center; max-width: 960px; margin: 0 auto; }
+    @media (min-width: 760px) { .bf-28 { grid-template-columns: auto minmax(0, 1fr); } }
+    .bf-28__num { font-family: var(--font-display); font-size: clamp(140px, 18vw, 220px); line-height: .85; color: var(--navy); text-align: center; }
+    .bf-28__num span { display: block; margin-top: 10px; font-family: var(--font-ui); font-size: 12px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: var(--wood); }
+    .bf-28__text h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 3.8vw, 50px); line-height: 1.1; color: var(--navy); }
+    .bf-28__text p:not(.kicker) { margin-top: 16px; font-size: 18px; line-height: 1.75; }
+    .bf-28__text .btn { margin-top: 26px; gap: 10px; }
+    .bf-28__text .btn svg { width: 16px; height: 16px; }
+    @media (max-width: 759px) { .bf-28__text { text-align: center; } }
+
+    /* 28 beliefs on the church blue, with an open Bible drawn faintly on the right */
+    .bf-28-band { position: relative; isolation: isolate; overflow: hidden; background: var(--navy); color: rgba(253, 251, 247, .85); }
+    .bf-28-band .bf-28 { position: relative; z-index: 1; }
+    .bf-28-band .bf-28__num { color: #fdfbf7; }
+    .bf-28-band .bf-28__num span, .bf-28-band .kicker { color: #f3d3b0; }
+    .bf-28-band .bf-28__text h2 { color: #fdfbf7; }
+    .bf-28-band .btn--white { background: #f3d3b0; border-color: #f3d3b0; color: var(--navy); }
+    .bf-28-band .btn--white:hover { background: #f7ddc0; border-color: #f7ddc0; box-shadow: 0 8px 28px rgba(243, 211, 176, .3); }
+    /* Open Bible photo on the right, fading into the blue toward the text */
+    .bf-28__bible {
+      position: absolute; z-index: 0; top: 0; right: 0; height: 100%; width: 58%;
+      object-fit: cover; object-position: 60% 60%; opacity: .55; pointer-events: none;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+              mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+    }
+    @media (min-width: 760px) { .bf-28-band .bf-28 { max-width: 1120px; } .bf-28-band .bf-28__text { max-width: 500px; } }
+    @media (max-width: 759px) {
+      .bf-28__bible { width: 100%; opacity: .22; -webkit-mask-image: none; mask-image: none; }
+    }
+
+    /* Questions (accordion) */
+    .bf-faq { max-width: 820px; margin: clamp(36px, 5vw, 52px) auto 0; display: grid; gap: 12px; }
+    .bf-faq details { background: #fff; border: 1px solid #e6e1d6; border-radius: 14px; }
+    .bf-faq summary {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      padding: 20px 22px; cursor: pointer; list-style: none;
+      font-family: var(--font-display); font-size: clamp(22px, 2vw, 26px); line-height: 1.25; color: var(--navy);
+    }
+    .bf-faq summary::-webkit-details-marker { display: none; }
+    .bf-faq summary::after {
+      content: ""; flex: none; width: 12px; height: 12px; margin-right: 4px;
+      border-right: 2px solid var(--wood); border-bottom: 2px solid var(--wood);
+      transform: rotate(45deg) translateY(-3px); transition: transform .25s ease;
+    }
+    .bf-faq details[open] summary::after { transform: rotate(-135deg) translateY(-3px); }
+    .bf-faq details > div { padding: 0 22px 22px; font-size: 17px; line-height: 1.7; }
+    .bf-faq details > div p + p { margin-top: 12px; }
+    .bf-faq a { color: var(--navy); text-underline-offset: 3px; }
+
+    /* Banner: the sign's own lettering competes with the title, so soften and deepen the photo */
+    .page-hero--beliefs .hero__media img { filter: blur(3px); transform: scale(1.04); object-position: center 45%; }
+    .page-hero--beliefs .hero__media::after {
+      background: linear-gradient(180deg, rgba(10, 35, 85, .72) 0%, rgba(16, 55, 120, .62) 45%, rgba(10, 30, 75, .78) 100%);
+    }
+    .bl-cta__times { margin-top: 10px; font-size: 15px; color: #6b6f73; }
+    @media (prefers-reduced-motion: reduce) { .bf-toc a, .bf-faq summary::after { transition: none; } }
+  </style>
+</head>
+<body>
+
+<section class="page-hero page-hero--beliefs" aria-labelledby="page-title">
+  <div class="hero__media" aria-hidden="true">
+    <img src="img/beliefs-hero-bible.webp" srcset="img/beliefs-hero-bible-960.webp 960w, img/beliefs-hero-bible.webp 1920w" sizes="100vw" alt="" width="1920" height="1280" fetchpriority="high" decoding="async">
+  </div>
+
+  <header>
+    <nav class="nav" aria-label="Main">
+      <a class="nav__brand" href="index.html"><img src="img/richmond-sda-logo-300.webp" srcset="img/richmond-sda-logo-300.webp 300w, img/richmond-sda-logo-600.webp 600w" sizes="160px" width="300" height="89" alt="Richmond Seventh-day Adventist Church — Home"></a>
+
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="beliefs.html" aria-current="page">Our Beliefs</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener noreferrer">Adventist Giving</a></li>
+      </ul>
+
+      <a class="btn btn--white nav__cta" href="contact.html">Contact Us</a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <div class="page-hero__content">
+    <h1 class="reveal" id="page-title">Our Beliefs</h1>
+  </div>
+
+  <a class="scroll-cue" href="#intro">
+    <span>Scroll to explore</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+  </a>
+</section>
+
+<main class="site">
+
+  <!-- 1. Intro: photo + beliefs that shape how we live -->
+  <section class="ab-section" id="intro" aria-labelledby="intro-title">
+    <div class="ab-wrap ab-intro__grid">
+      <figure class="ab-intro__media">
+        <img src="img/richmond-sanctuary.webp" srcset="img/richmond-sanctuary-960.webp 960w, img/richmond-sanctuary.webp 1195w" sizes="(min-width: 900px) 560px, 92vw" alt="Sabbath worship inside the Richmond SDA Church: a warm wooden sanctuary with the congregation listening to the sermon" width="1195" height="896" loading="lazy" decoding="async">
+      </figure>
+      <div class="ab-intro__text">
+        <span class="kicker kicker--wood">Our faith is rooted in Scripture</span>
+        <h2 class="ab-statement" id="intro-title">Beliefs that shape <em>how we live,</em> not just what we say.</h2>
+        <p>Our Seventh-day Adventist faith is built on the Bible and centered on Jesus Christ. These beliefs shape more than how we worship on Sabbath morning. They guide how we love our families, treat our neighbors, care for our health and look toward the future with hope.</p>
+        <p>Whether you grew up in church or are exploring faith for the first time, we hope this page helps you understand who we are, and why it matters to us.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Core beliefs -->
+  <section class="ab-section ab-section--cream" aria-labelledby="core-title">
+    <div class="ab-wrap">
+      <div class="ab-head">
+        <span class="kicker kicker--wood">What we believe</span>
+        <h2 class="ab-title" id="core-title">Our Core Beliefs</h2>
+        <p>Our faith is grounded in God’s Word and centered on Jesus. These five themes summarize what guides our worship, our relationships and our hope.</p>
+        <nav class="bf-toc" aria-label="Core beliefs">
+          <ol>
+            <li><a href="#belief-word"><span>01</span> God and His Word</a></li>
+            <li><a href="#belief-creation"><span>02</span> Creation and Humanity</a></li>
+            <li><a href="#belief-salvation"><span>03</span> Jesus and Salvation</a></li>
+            <li><a href="#belief-church"><span>04</span> The Church</a></li>
+            <li><a href="#belief-hope"><span>05</span> Our Future Hope</a></li>
+          </ol>
+        </nav>
+      </div>
+      <div class="bf-list">
+      <article class="bf-item" id="belief-word" aria-labelledby="belief-word-title">
+        <div class="bf-art" aria-hidden="true"><span class="bf-art__num">01</span><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 38c-10-8-26-10-40-8v56c14-2 30 0 40 8 10-8 26-10 40-8V30c-14-2-30 0-40 8z"/><path d="M60 38v56"/><path d="M30 46c8-1 15 0 21 3M30 56c8-1 15 0 21 3M30 66c8-1 15 0 21 3M69 49c6-3 13-4 21-3M69 59c6-3 13-4 21-3M69 69c6-3 13-4 21-3" opacity=".55"/><path d="M60 14v10M47 18l4 8M73 18l-4 8" opacity=".7"/></svg></div>
+        <div class="bf-body">
+          <h3 id="belief-word-title"><span class="visually-hidden">Belief 01: </span>God and His Word</h3>
+          <p>We believe the Bible is God’s inspired Word: a trustworthy guide for faith and life, and the standard by which every teaching is tested.</p>
+          <p>We worship one God, Father, Son and Holy Spirit, three Persons united in love and working together for our salvation.</p>
+          <blockquote class="bf-verse"><p>“Thy word is a lamp unto my feet, and a light unto my path.”</p><cite>Psalm 119:105 (KJV)</cite></blockquote>
+          <p class="bf-meaning"><strong>What this means for you:</strong> You don’t have to take anyone’s word for it, including ours. Open the Bible, ask questions and discover God for yourself.</p>
+          <dl class="bf-refs"><dt>Read more</dt><dd>2 Timothy 3:16–17 · Matthew 28:19 · John 1:1–3</dd></dl>
+        </div>
+      </article>
+      <article class="bf-item" id="belief-creation" aria-labelledby="belief-creation-title">
+        <div class="bf-art" aria-hidden="true"><span class="bf-art__num">02</span><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="60" cy="40" r="14"/><path d="M60 14v-6M60 72v-6M34 40h-6M92 40h-6M41.6 21.6l-4.2-4.2M82.6 62.6l-4.2-4.2M41.6 58.4l-4.2 4.2M82.6 17.4l-4.2 4.2" opacity=".6"/><path d="M12 100c14-14 26-20 38-20 10 0 16 6 26 6s16-8 32-12"/><path d="M12 110c16-6 30-8 48-6s34 2 48-4" opacity=".55"/><path d="M30 86V72M30 78l-6-5M30 76l6-6" opacity=".7"/></svg></div>
+        <div class="bf-body">
+          <h3 id="belief-creation-title"><span class="visually-hidden">Belief 02: </span>Creation and Humanity</h3>
+          <p>God created the world in love and called it “very good.” Every person is made in His image and is worthy of dignity, respect and compassion.</p>
+          <p>We live in a world touched by the struggle between good and evil, but God has not given up on His creation. He is working to restore it to harmony.</p>
+          <blockquote class="bf-verse"><p>“So God created man in his own image, in the image of God created he him; male and female created he them.”</p><cite>Genesis 1:27 (KJV)</cite></blockquote>
+          <p class="bf-meaning"><strong>What this means for you:</strong> Your life has value because God made you on purpose. No past, background or mistake changes that.</p>
+          <dl class="bf-refs"><dt>Read more</dt><dd>Genesis 1–2 · Psalm 139:13–14 · Romans 8:19–22</dd></dl>
+        </div>
+      </article>
+      <article class="bf-item bf-item--center" id="belief-salvation" aria-labelledby="belief-salvation-title">
+        <div class="bf-art" aria-hidden="true"><span class="bf-art__num">03</span><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 14v92M36 40h48" stroke-width="3"/><path d="M28 106h64" opacity=".55"/><path d="M20 70c8-10 16-14 24-14M100 70c-8-10-16-14-24-14" opacity=".45"/></svg></div>
+        <div class="bf-body">
+          <span class="bf-tag">At the center of our faith</span>
+          <h3 id="belief-salvation-title"><span class="visually-hidden">Belief 03: </span>Jesus and Salvation</h3>
+          <p>At the center of everything we believe is Jesus Christ: His life, His death on the cross and His resurrection. Through Him we find forgiveness, grace and new life.</p>
+          <p>Salvation is God’s free gift. We don’t earn it; we receive it by faith, and it grows as we walk with Him each day.</p>
+          <blockquote class="bf-verse"><p>“For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.”</p><cite>John 3:16 (KJV)</cite></blockquote>
+          <p class="bf-meaning"><strong>What this means for you:</strong> God’s love for you is not a reward for being good enough. It is a gift, offered to you today.</p>
+          <dl class="bf-refs"><dt>Read more</dt><dd>Ephesians 2:8–9 · Romans 5:8 · 2 Corinthians 5:17</dd></dl>
+        </div>
+      </article>
+      <article class="bf-item" id="belief-church" aria-labelledby="belief-church-title">
+        <div class="bf-art" aria-hidden="true"><span class="bf-art__num">04</span><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 14v18M52 21h16"/><path d="M26 104V62l34-24 34 24v42"/><path d="M50 104V84a10 10 0 0 1 20 0v20"/><path d="M14 104h92"/><circle cx="60" cy="58" r="5" opacity=".6"/></svg></div>
+        <div class="bf-body">
+          <h3 id="belief-church-title"><span class="visually-hidden">Belief 04: </span>The Church and Christian Living</h3>
+          <p>The church is God’s family: a worldwide community where we worship, learn and serve together. We celebrate baptism and the Lord’s Supper, honor the Sabbath and care for one another.</p>
+          <p>Following Jesus touches every part of life, from how we treat our families and neighbors to how we care for our bodies, our time, our resources and God’s creation.</p>
+          <blockquote class="bf-verse"><p>“And they continued stedfastly in the apostles’ doctrine and fellowship, and in breaking of bread, and in prayers.”</p><cite>Acts 2:42 (KJV)</cite></blockquote>
+          <p class="bf-meaning"><strong>What this means for you:</strong> Faith is not meant to be lived alone. There is a place for you in this family, whatever your story.</p>
+          <div class="bf-photos">
+            <img src="img/image-collage/collage-3990.webp" alt="Church members in blue shirts sharing a meal together at picnic tables" width="1000" height="667" loading="lazy" decoding="async">
+            <img src="img/image-collage/collage-4021.webp" alt="Volunteers serving food to guests under a tent" width="1000" height="667" loading="lazy" decoding="async">
+            <img src="img/image-collage/collage-3832.webp" alt="Families gathered around tables on the church lawn" width="1000" height="667" loading="lazy" decoding="async">
+          </div>
+          <dl class="bf-refs"><dt>Read more</dt><dd>Romans 6:3–4 · 1 Corinthians 6:19–20 · Hebrews 10:24–25</dd></dl>
+        </div>
+      </article>
+      <article class="bf-item" id="belief-hope" aria-labelledby="belief-hope-title">
+        <div class="bf-art" aria-hidden="true"><span class="bf-art__num">05</span><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M60 22v74M42 44h36" stroke-width="2.8"/><path d="M14 96h92"/><path d="M22 108h76" opacity=".45"/></svg></div>
+        <div class="bf-body">
+          <h3 id="belief-hope-title"><span class="visually-hidden">Belief 05: </span>Our Future Hope</h3>
+          <p>God continues to guide His people through the Holy Spirit, His Word and the gift of prophecy. Jesus ministers for us in the heavenly sanctuary, and He has promised to return.</p>
+          <p>When He comes, He will put an end to sin, suffering and death, and make all things new. That is the “advent” hope in our name.</p>
+          <blockquote class="bf-verse"><p>“Looking for that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ.”</p><cite>Titus 2:13 (KJV)</cite></blockquote>
+          <p class="bf-meaning"><strong>What this means for you:</strong> Pain and loss do not get the last word. You can face today with real hope for tomorrow.</p>
+          <dl class="bf-refs"><dt>Read more</dt><dd>John 14:1–3 · 1 Thessalonians 4:16–17 · Revelation 21:1–4</dd></dl>
+        </div>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. The Sabbath -->
+  <section class="ab-section bf-sabbath" id="sabbath" aria-labelledby="sabbath-title">
+    <img class="bf-sabbath__bg" src="img/richmond-sanctuary.webp" srcset="img/richmond-sanctuary-960.webp 960w, img/richmond-sanctuary.webp 1195w" sizes="100vw" alt="" width="1195" height="896" aria-hidden="true" loading="lazy" decoding="async">
+    <div class="ab-wrap">
+      <div class="ab-head">
+        <span class="kicker">The “Seventh-day” in our name</span>
+        <h2 class="ab-title" id="sabbath-title">Why We Worship on Saturday</h2>
+        <p>From Friday sunset to Saturday sunset, we keep the seventh-day Sabbath, just as Jesus did. It is God’s weekly gift of rest: a sacred pause to set aside work and worry, worship together and enjoy time with Him and with the people we love.</p>
+        <blockquote class="bf-sabbath__verse">“Remember the sabbath day, to keep it holy.”<cite>Exodus 20:8 (KJV)</cite></blockquote>
+      </div>
+      <ul class="bf-sabbath__grid">
+        <li><h3>Rest</h3><p>A full day to step back from work, screens and stress, and let God renew body and soul.</p></li>
+        <li><h3>Worship</h3><p>We gather for Bible study and worship, and Friday evening vespers welcome the Sabbath in.</p></li>
+        <li><h3>Relationships</h3><p>Time for family, friends and fellowship, often around a shared meal after church.</p></li>
+        <li><h3>Service</h3><p>Like Jesus, we use the Sabbath to do good: visiting, encouraging and helping others.</p></li>
+      </ul>
+      <p class="bf-sabbath__note">Join us this Sabbath: Sabbath School at 9:30 am · Worship Service at 11:00 am</p>
+    </div>
+  </section>
+
+  <!-- 4. The 28 Fundamental Beliefs -->
+  <section class="ab-section bf-28-band" aria-labelledby="bl28-title">
+    <img class="bf-28__bible" src="img/beliefs-bible.webp" alt="" width="643" height="360" aria-hidden="true" loading="lazy" decoding="async">
+    <div class="bf-28">
+      <p class="bf-28__num" aria-hidden="true">28<span>Fundamental Beliefs</span></p>
+      <div class="bf-28__text">
+        <span class="kicker">Go deeper</span>
+        <h2 id="bl28-title">The 28 Fundamental Beliefs</h2>
+        <p>The five themes above summarize the heart of our message. For the complete statement of faith, with Bible references for every belief, explore the official 28 Fundamental Beliefs of the Seventh-day Adventist Church.</p>
+        <a class="btn btn--white btn--lg" href="https://www.adventist.org/beliefs/" target="_blank" rel="noopener">Explore the 28 Fundamental Beliefs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg><span class="visually-hidden"> (opens adventist.org in a new tab)</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Common questions -->
+  <section class="ab-section ab-section--cream" aria-labelledby="faq-title">
+    <div class="ab-wrap">
+      <div class="ab-head">
+        <span class="kicker kicker--wood">Common questions</span>
+        <h2 class="ab-title" id="faq-title">New to Adventism?</h2>
+        <p>Here are answers to some of the questions people ask us most.</p>
+      </div>
+      <div class="bf-faq">
+      <details>
+        <summary>Are Seventh-day Adventists Christians?</summary>
+        <div><p>Yes. We are a Protestant Christian church. We believe in one God, Father, Son and Holy Spirit, and that salvation comes only through faith in Jesus Christ. The Bible is our only rule of faith and practice.</p></div>
+      </details>
+      <details>
+        <summary>Why do you go to church on Saturday?</summary>
+        <div><p>The Bible names the seventh day, Saturday, as the Sabbath that God blessed at Creation and included in the Ten Commandments. Jesus and His early followers kept it too. For us it is a joyful day of rest and worship, not a burden. You can read more in the Sabbath section above.</p></div>
+      </details>
+      <details>
+        <summary>Do I have to be an Adventist to attend?</summary>
+        <div><p>Not at all. Everyone is welcome: members, visitors, families and anyone simply curious about faith. Come as you are, ask questions and take your time. No one will pressure you.</p></div>
+      </details>
+      <details>
+        <summary>Why do Adventists care so much about health?</summary>
+        <div><p>We believe our bodies are a gift from God, so caring for them is part of how we honor Him. Many Adventists eat a vegetarian or plant-based diet and avoid alcohol and tobacco. It is a big reason we love hosting community events like our Vegan Food Festival.</p></div>
+      </details>
+      <details>
+        <summary>How can I learn more or study the Bible with someone?</summary>
+        <div><p>We would love to help. Join a Sabbath School class at 9:30 am on Saturday, explore the <a href="https://www.adventist.org/beliefs/" target="_blank" rel="noopener">28 Fundamental Beliefs<span class="visually-hidden"> (opens in a new tab)</span></a>, or <a href="contact.html">contact us</a> to ask about Bible studies.</p></div>
+      </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Invitation -->
+  <section class="bl-cta" aria-labelledby="cta-title">
+    <h2 id="cta-title">Faith. Hope. Community.</h2>
+    <p>Come worship, learn and grow with our church family in Richmond.</p>
+    <p class="bl-cta__times">Saturdays · Sabbath School 9:30 am · Worship Service 11:00 am</p>
+    <div class="bl-cta__actions">
+      <a class="btn btn--navy btn--lg" href="https://www.google.com/maps/dir/?api=1&amp;destination=3031+Berea+Rd%2C+Richmond%2C+KY+40475" target="_blank" rel="noopener">Visit Our Church<span class="visually-hidden"> (directions open in Google Maps)</span></a>
+      <a class="btn btn--navy-outline btn--lg" href="contact.html">Contact Us</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <a href="index.html" class="footer__logo"><img src="img/richmond-sda-logo.webp" alt="Richmond Seventh-day Adventist Church — Home" width="1500" height="445" loading="lazy"></a>
+      <p>Rooted in faith, sharing the hope of Jesus’ soon return.<br>A Christ-centered church family in Richmond.</p>
+    </div>
+
+    <div class="footer__grid">
+      <nav aria-labelledby="f-church">
+        <h2 class="footer__heading" id="f-church">Church</h2>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="beliefs.html" aria-current="page">Our Beliefs</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-resources">
+        <h2 class="footer__heading" id="f-resources">Ministries &amp; Resources</h2>
+        <ul>
+          <li><a href="https://www.nadadventist.org/" target="_blank" rel="noopener">North American Division</a></li>
+          <li><a href="https://www.adventist.org/" target="_blank" rel="noopener">General Conference</a></li>
+          <li><a href="https://www.hopetv.org/" target="_blank" rel="noopener">Hope Channel</a></li>
+          <li><a href="https://www.itiswritten.com/" target="_blank" rel="noopener">It Is Written</a></li>
+          <li><a href="https://egwwritings.org/" target="_blank" rel="noopener">Ellen White Writings</a></li>
+          <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener">Adventist Giving</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2 class="footer__heading">Visit</h2>
+        <address>
+          <a href="https://www.google.com/maps/dir/?api=1&amp;destination=3031+Berea+Rd%2C+Richmond%2C+KY+40475" target="_blank" rel="noopener">3031 Berea Rd<br>Richmond, KY 40475-9667<span class="visually-hidden"> (directions open in a new tab)</span></a>
+        </address>
+        <p class="footer__note">Saturdays<br>Sabbath School 9:30 am<br>Worship Service 11:00 am</p>
+      </div>
+      <div>
+        <h2 class="footer__heading">Connect</h2>
+        <!-- Add the church phone number here, e.g. <p><a href="tel:+1XXXXXXXXXX">(XXX) XXX-XXXX</a></p> -->
+        <p><a href="contact.html">Contact Us</a></p>
+        <p><a href="#">Watch us on YouTube</a></p>
+        <p class="footer__note">New here? <a href="contact.html">Plan your visit</a><br>and we’ll save you a seat.</p>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">Copyright ©2026 Richmond SDA Church
+        <span class="footer__mark"><img src="img/richmond-sda-logo.webp" alt="" width="1500" height="445" loading="lazy"></span></p>
+      <p class="footer__made"><a class="footer__credit remove-decoration" href="https://www.leonoliver.com/" target="_blank" rel="noopener"><span class="footer__credit-text">Made by</span><picture><source srcset="img/leonoliver-logo-30.webp 30w, img/leonoliver-logo-48.webp 48w" sizes="30px" type="image/webp"><img src="img/leonoliver-logo-30.png" srcset="img/leonoliver-logo-30.png 30w, img/leonoliver-logo-48.png 48w" sizes="30px" width="30" height="21" alt="Leon Oliver" loading="lazy" decoding="async"></picture><span class="visually-hidden"> (opens in a new tab)</span></a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile menu -->
+<div class="menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="menu__top">
+    <a class="nav__brand" href="index.html"><img src="img/richmond-sda-logo-300.webp" srcset="img/richmond-sda-logo-300.webp 300w, img/richmond-sda-logo-600.webp 600w" sizes="160px" width="300" height="89" alt="Richmond Seventh-day Adventist Church — Home"></a>
+    <button class="nav__toggle" type="button" data-menu-close aria-label="Close menu" style="display:inline-flex">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <ul class="menu__links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="beliefs.html" aria-current="page">Our Beliefs</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener noreferrer">Adventist Giving</a></li>
+  </ul>
+  <a class="btn btn--white" href="contact.html">Contact Us</a>
+</div>
+
+<script>
+  (function () {
+    var openBtn = document.querySelector('.nav .nav__toggle');
+    var menu = document.getElementById('mobile-menu');
+    var closeBtn = menu.querySelector('[data-menu-close]');
+    var lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      menu.hidden = false;
+      requestAnimationFrame(function () { menu.classList.add('is-open'); });
+      openBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function close() {
+      menu.classList.remove('is-open');
+      openBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      setTimeout(function () { menu.hidden = true; }, 300);
+      (lastFocus || openBtn).focus();
+    }
+
+    openBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) {
+      if (menu.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'Tab') {                              // keep focus inside the open menu
+        var f = menu.querySelectorAll('a, button');
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  })();
+</script>
+</body>
+</html>

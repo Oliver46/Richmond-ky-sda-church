@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="favicon.ico" sizes="48x48">
+  <link rel="icon" href="img/icons/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="img/icons/icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#14325a">
+  <!-- Link previews (Facebook, WhatsApp, iMessage, X, LinkedIn…).
+       When the site has its web address, put the full address in front of the image path,
+       e.g. content="https://www.yourchurch.org/img/og/og-home.jpg", and add <meta property="og:url" content="(full page address)">. -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Richmond Seventh-day Adventist Church">
+  <meta property="og:locale" content="en_US">
+  <meta property="og:title" content="Richmond Seventh-day Adventist Church | Richmond, KY">
+  <meta property="og:description" content="A welcoming, Christ-centered church family in Richmond, Kentucky. Join us every Saturday: Sabbath School 9:30 am and Worship Service 11:00 am at 3031 Berea Rd.">
+  <meta property="og:image" content="img/og/og-home.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Richmond Seventh-day Adventist Church logo over a softly blurred view of the sanctuary, with the words Welcome to our church family">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Richmond Seventh-day Adventist Church | Richmond, KY">
+  <meta name="twitter:description" content="A welcoming, Christ-centered church family in Richmond, Kentucky. Join us every Saturday: Sabbath School 9:30 am and Worship Service 11:00 am at 3031 Berea Rd.">
+  <meta name="twitter:image" content="img/og/og-home.jpg">
+  <meta name="twitter:image:alt" content="The Richmond Seventh-day Adventist Church logo over a softly blurred view of the sanctuary, with the words Welcome to our church family">
+  <title>Richmond Seventh-day Adventist Church | Richmond, KY</title>
+  <meta name="description" content="A welcoming, Christ-centered church family in Richmond, Kentucky. Join us every Saturday: Sabbath School 9:30 am and Worship Service 11:00 am at 3031 Berea Rd.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:ital,wght@0,400&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500&amp;display=swap">
+
+  <!-- Background photo: preload so it paints with the headline -->
+  <link rel="preload" as="image" href="img/richmond-sanctuary.webp" imagesrcset="img/richmond-sanctuary-960.webp 960w, img/richmond-sanctuary.webp 1195w" imagesizes="100vw" type="image/webp">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #fff;
+      --white-75: rgba(255, 255, 255, .75);
+      --gutter: clamp(24px, 4vw, 48px);
+      --font-display: "Instrument Serif", Georgia, serif;
+      --font-brand: "Dancing Script", cursive;
+      --font-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+      --ease: cubic-bezier(.2, .7, .2, 1);
+    }
+
+    body {
+      background: #000;
+      color: var(--white);
+      font-family: var(--font-ui);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip-path: inset(50%); white-space: nowrap;
+    }
+
+    /* Visible keyboard focus everywhere */
+    :focus-visible { outline: 2px solid var(--white); outline-offset: 4px; border-radius: 999px; }
+
+    /* ================================================================
+       HERO
+       ================================================================ */
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 100vh;
+      min-height: 100svh;               /* grows on short screens instead of clipping text */
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Background photo + 20% black layer */
+    .hero__media { position: absolute; inset: 0; z-index: -1; }
+    .hero__media picture,
+    .hero__media img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .hero__media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      /* Transparent blue overlay: a little deeper at the top (nav) and
+         bottom, lighter in the middle so the sanctuary still shows */
+      background:
+        linear-gradient(180deg,
+          rgba(10, 35, 85, .62) 0%,
+          rgba(16, 55, 120, .42) 45%,
+          rgba(10, 30, 75, .66) 100%);
+    }
+
+    /* ---------- Navigation ---------- */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 20px var(--gutter);
+    }
+    .nav__brand {
+      font-family: var(--font-brand);
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1;
+      color: var(--white);
+      text-decoration: none;
+      text-shadow: 0 1px 12px rgba(0, 0, 0, .35);
+      display: inline-flex;
+      align-items: center;
+    }
+    .nav__brand img {
+      display: block;
+      height: clamp(36px, 4.2vw, 48px);
+      width: auto;
+      filter: drop-shadow(0 1px 8px rgba(0, 0, 0, .35));
+    }
+    .nav__links {
+      display: flex;
+      gap: clamp(20px, 2.6vw, 36px);
+      list-style: none;
+    }
+    .nav__links a {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--white);
+      text-decoration: none;
+      opacity: .9;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, .4);
+      transition: opacity .2s ease;
+    }
+    .nav__links a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+    .nav__links a[aria-current="page"] { opacity: 1; text-decoration: underline; text-underline-offset: 6px; }
+    .menu__links a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 8px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 28px;
+      border-radius: 999px;
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn--white { background: var(--white); color: #111; border: 1px solid var(--white); }
+    .btn--white:hover { box-shadow: 0 8px 28px rgba(255, 255, 255, .28); }
+    .btn--glass {
+      background: rgba(255, 255, 255, .12);
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, .35);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(14px) saturate(140%);
+    }
+    .btn--glass:hover { background: rgba(255, 255, 255, .2); }
+    .nav__cta { min-height: 42px; padding: 0 22px; font-size: 13px; letter-spacing: .02em; }
+
+    .nav__toggle {
+      display: none;
+      width: 44px; height: 44px;
+      align-items: center; justify-content: center;
+      border: 1px solid rgba(255, 255, 255, .35);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .12);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      color: var(--white);
+      cursor: pointer;
+    }
+    .nav__toggle svg { width: 20px; height: 20px; }
+
+    /* ---------- Centre content ---------- */
+    .hero__content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px var(--gutter) 96px;
+    }
+    .hero__pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .35);
+      background: rgba(255, 255, 255, .12);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: .02em;
+    }
+    .hero__pill-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--white); box-shadow: 0 0 10px var(--white); }
+
+    .hero__title {
+      max-width: 1024px;
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 48px;                                       /* mobile */
+      line-height: .95;
+      letter-spacing: -.01em;
+      color: var(--white);
+      /* soft white glow + a faint shadow so it reads over the bright wood */
+      text-shadow: 0 2px 4px rgba(0, 0, 0, .45), 0 4px 24px rgba(0, 0, 0, .55), 0 0 60px rgba(0, 0, 0, .3);
+    }
+    .hero__title em { display: block; font-style: italic; }
+    @media (min-width: 640px)  { .hero__title { font-size: clamp(72px, 10vw, 96px); } }   /* tablet */
+    @media (min-width: 1024px) { .hero__title { font-size: 120px; } }                     /* desktop */
+
+    .hero__text {
+      max-width: 576px;
+      margin-top: 28px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--white-75);
+      /* layered shadow keeps 75% white readable over the busy sanctuary photo */
+      text-shadow: 0 1px 2px rgba(0, 0, 0, .55), 0 2px 18px rgba(0, 0, 0, .65);
+    }
+    @media (min-width: 640px) { .hero__text { font-size: 18px; } }
+
+    .hero__actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 36px;
+    }
+
+    .hero__scroll {
+      position: absolute;
+      left: 50%;
+      bottom: 28px;
+      translate: -50% 0;
+      font-size: 12px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--white-75);
+      text-shadow: 0 1px 10px rgba(0, 0, 0, .5);
+    }
+
+    /* ---------- Mobile menu ---------- */
+    .menu {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      padding: 20px var(--gutter) 40px;
+      background: rgba(0, 0, 0, .82);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease, visibility 0s linear .3s;
+    }
+    .menu.is-open { opacity: 1; visibility: visible; transition: opacity .3s ease; }
+    .menu__top { display: flex; align-items: center; justify-content: space-between; }
+    .menu__links {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+      list-style: none;
+    }
+    .menu__links a {
+      font-family: var(--font-display);
+      font-size: 40px;
+      line-height: 1;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .menu .btn { align-self: flex-start; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 980px) {
+      .nav__links, .nav__cta { display: none; }
+      .nav__toggle { display: inline-flex; }
+    }
+    @media (max-width: 560px) {
+      .hero__actions { flex-direction: column; align-items: stretch; width: 100%; max-width: 360px; }
+      .hero__actions .btn { width: 100%; white-space: normal; text-align: center; }
+      .hero__content { padding-bottom: 88px; }
+    }
+    @media (max-height: 640px) {
+      .hero__content { justify-content: flex-start; padding-top: 24px; }
+    }
+
+    /* ================================================================
+       HOME SECTIONS (About Us · Church Services parallax · Our Beliefs)
+       ================================================================ */
+    :root {
+      --navy: #14325a;                 /* blue of the church sign: headings and buttons */
+      --navy-hover: #1d4475;
+      --wood: #8a5328;                 /* warm wood accent (ornament) — AA on white */
+      --cream: #f6f1e8;                /* soft warm background */
+      --charcoal: #333a40;
+      --deep-glass: rgba(14, 30, 52, .84);
+      --measure: 60ch;
+    }
+    .site { background: #fff; color: var(--charcoal); }
+    .site :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 4px; }
+
+    /* Centered text blocks */
+    .block { padding: clamp(64px, 8vw, 112px) 24px; text-align: center; }
+    .block--cream { background: var(--cream); }
+    .block__inner { max-width: 720px; margin: 0 auto; }
+    .block h2 {
+      display: inline-flex; flex-direction: column; align-items: center; gap: 18px;
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em;
+      color: var(--navy);
+    }
+    /* Accent: short warm-wood bar centered below each title (same as "Get in Touch") */
+    .block h2::after {
+      content: ""; display: block; width: 64px; height: 3px;
+      border-radius: 999px; background: var(--wood);
+    }
+    .block__inner > p { max-width: var(--measure); margin: 24px auto 0; font-size: 18px; line-height: 1.75; }
+    .block .btn { margin-top: 32px; }
+
+    .btn--navy-outline { background: transparent; color: var(--navy); border: 1.5px solid var(--navy); }
+    .btn--navy-outline:hover { background: var(--navy); color: #fff; }
+    .btn--lg { min-height: 52px; padding: 0 28px; font-weight: 500; }
+
+    /* Parallax */
+    .parallax {
+      position: relative; overflow: hidden; isolation: isolate;
+      min-height: clamp(460px, 62vh, 620px);
+      display: flex; align-items: center;
+      padding: 48px clamp(16px, 5vw, 64px);
+    }
+    .parallax__img {
+      position: absolute; left: 0; right: 0; top: -15%; height: 130%; z-index: -1;
+      width: 100%; object-fit: cover; object-position: center 62%;
+      will-change: transform;
+    }
+    /* Transparent blue overlay (same as the hero) */
+    .parallax::after {
+      content: "";
+      position: absolute; inset: 0; z-index: -1;
+      background:
+        linear-gradient(180deg,
+          rgba(10, 35, 85, .62) 0%,
+          rgba(16, 55, 120, .42) 45%,
+          rgba(10, 30, 75, .66) 100%);
+      pointer-events: none;
+    }
+    /* Home "Church Services": photo widened from the left edge so the sign sits further right, clear of the box */
+    .parallax--sign .parallax__img { right: auto; width: 122%; object-position: center 60%; }
+    @media (max-width: 767px) { .parallax--sign .parallax__img { width: 100%; right: 0; } }
+    .parallax__box {
+      max-width: 540px; width: 100%;
+      background: var(--deep-glass);
+      -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+      border: 2px solid #fff;
+      border-radius: 14px;
+      color: #fff; padding: clamp(28px, 3.4vw, 44px);
+      text-align: center;
+    }
+    .parallax--right { justify-content: flex-end; }
+    .parallax--right .parallax__box { margin-right: clamp(0px, 8vw, 140px); }
+    .parallax--left  .parallax__box { margin-left:  clamp(0px, 8vw, 140px); }
+    .parallax__box h2 {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(32px, 3.4vw, 44px); line-height: 1.1; color: #fff;
+    }
+    .schedule { margin-top: 22px; font-size: 18px; line-height: 1.75; }
+    .schedule dt { margin-bottom: 4px; font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: #f3d3b0; }
+    .schedule dd { margin: 0; }
+    .btn--light { background: #fff; color: #111; border: 1px solid #fff; }
+    .btn--light:hover { box-shadow: 0 8px 28px rgba(255, 255, 255, .28); }
+    .parallax__btn { margin-top: 24px; }
+
+    @media (max-width: 767px) {
+      .parallax { justify-content: center; }
+      .parallax .parallax__box { margin: 0; }
+    }
+    @media (max-width: 560px) {
+      .btn--lg { white-space: normal; text-align: center; height: auto; padding: 12px 20px; }
+    }
+
+    /* ---------- Events (carousel of cards on the sign's blue) ---------- */
+    .events { background: var(--navy); color: #fdfbf7; padding: clamp(80px, 9vw, 110px) 0; }
+    .events__inner { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+    .kicker {
+      display: inline-block; margin: 0 0 14px;
+      font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+      color: #f3d3b0;
+    }
+    .events__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin-bottom: 48px; }
+    .events__heading {
+      font-family: var(--font-display); font-weight: 400;
+      font-size: clamp(40px, 4.6vw, 60px); line-height: 1.05; letter-spacing: -.01em; color: #fdfbf7;
+    }
+    .events__copy { margin-top: 16px; max-width: 520px; font-size: 16px; line-height: 1.65; color: rgba(253, 251, 247, .78); }
+    .events__controls { display: flex; gap: 10px; flex: 0 0 auto; }
+    .round-btn {
+      display: grid; place-items: center;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: transparent; color: #fdfbf7; border: 1.5px solid rgba(253, 251, 247, .45);
+      cursor: pointer; transition: background .25s ease, color .25s ease, border-color .25s ease, opacity .25s ease;
+    }
+    .round-btn svg { width: 18px; height: 18px; }
+    .round-btn:hover { background: #fdfbf7; color: var(--navy); border-color: #fdfbf7; }
+    .round-btn:disabled { opacity: .35; cursor: default; background: transparent; color: #fdfbf7; border-color: rgba(253, 251, 247, .45); }
+    .events :focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+    .events-track {
+      display: flex; gap: 24px; list-style: none;
+      overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+      padding-bottom: 8px; scrollbar-width: none;
+    }
+    .events-track::-webkit-scrollbar { display: none; }
+    .event-card {
+      flex: 0 0 auto; width: calc((100% - 72px) / 4);
+      scroll-snap-align: start;
+      background: rgba(253, 251, 247, .06);
+      border: 1px solid rgba(253, 251, 247, .14);
+      border-radius: 18px; overflow: hidden;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+    .event-card:hover { transform: translateY(-4px); border-color: rgba(253, 251, 247, .3); }
+    .event-card__media { position: relative; height: 190px; }
+    .event-card__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .event-card__badge {
+      position: absolute; top: 14px; left: 14px;
+      padding: 5px 13px; border-radius: 999px;
+      background: #e2bd78; color: #1a1a17;
+      font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .event-card__body { padding: 22px 22px 26px; }
+    .event-card__when { display: block; margin-bottom: 8px; font-size: 11.5px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: #f3d3b0; }
+    .event-card__title { margin-bottom: 10px; font-family: var(--font-display); font-weight: 400; font-size: 26px; line-height: 1.15; color: #fdfbf7; }
+    .event-card__copy { font-size: 14px; line-height: 1.6; color: rgba(253, 251, 247, .74); }
+    .events__cta { margin-top: 48px; text-align: center; }
+    .btn--outline-light { background: transparent; color: #fdfbf7; border: 1.5px solid rgba(253, 251, 247, .55); }
+    .btn--outline-light:hover { background: #fdfbf7; color: var(--navy); border-color: #fdfbf7; }
+
+    @media (max-width: 1100px) { .event-card { width: calc((100% - 48px) / 3); } }
+    @media (max-width: 860px)  { .event-card { width: calc((100% - 24px) / 2); } }
+    @media (max-width: 720px) {
+      .events__inner { padding: 0 24px; }
+      .events__head { flex-direction: column; align-items: flex-start; gap: 20px; }
+      .events__controls { align-self: flex-end; }
+    }
+    @media (max-width: 560px)  { .event-card { width: 84%; } }
+    @media (prefers-reduced-motion: reduce) { .events-track { scroll-behavior: auto; } .event-card { transition: none; } }
+
+    /* ---------- Footer: brand row + 4 columns + bottom line ---------- */
+    .footer {
+      background: #0e2441; color: #fff;          /* a shade darker than the Events section above */
+      font-size: 15px; line-height: 1.8;
+      padding: 72px 24px 48px;
+      border-top: 1px solid rgba(255, 255, 255, .12);
+    }
+    .footer__inner { max-width: 1160px; margin: 0 auto; }
+    .footer__brand, .footer__bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; }
+    .footer__brand { gap: 16px 32px; padding-bottom: 36px; border-bottom: 1px solid rgba(255, 255, 255, .2); }
+    .footer__logo { display: inline-block; border-radius: 6px; }
+    .footer__logo img { display: block; height: 56px; width: auto; }
+    .footer__brand p { font-size: 15px; line-height: 1.6; color: rgba(255, 255, 255, .85); }
+    .footer__grid { display: grid; gap: 36px 32px; grid-template-columns: 1fr; padding-top: 40px; }
+    @media (min-width: 600px) { .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 960px) { .footer__grid { grid-template-columns: 1fr 1.4fr 1.1fr 1fr; } }
+    .footer__heading { margin-bottom: 14px; font-size: 13px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: #f3d3b0; }
+    .footer ul { list-style: none; }
+    .footer li + li { margin-top: 4px; }
+    .footer a { color: #fff; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .footer a.remove-decoration, .footer a.remove-decoration:hover { text-decoration: none; }
+    .footer address { font-style: normal; }
+    .footer__note { margin-top: 12px; font-size: 14px; line-height: 1.7; color: rgba(255, 255, 255, .85); }
+    .footer__note a { text-decoration: underline; text-underline-offset: 3px; }
+    .footer__bottom { gap: 8px 24px; margin-top: 48px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .45); }
+    .footer__copy { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+    .footer__mark { width: 21px; height: 24px; overflow: hidden; flex: none; }
+    .footer__mark img { display: block; height: 24px; width: auto; max-width: none; }
+    .footer__made { font-size: 12px; margin-left: auto; }
+    .footer__credit { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; line-height: 1; color: rgba(255, 255, 255, .85); transition: opacity .2s ease; }
+    .footer__credit-text, .footer__credit picture { display: block; }
+    .footer__credit img { display: block; width: 30px; height: auto; border-radius: 3px; }
+    .footer__credit:hover { opacity: .8; }
+    .footer :focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 4px; }
+    @media (max-width: 599px) { .footer__made { flex-basis: 100%; margin-left: 0; text-align: center; } }
+
+    /* ---------- Single entrance: fade + rise ---------- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      animation: hero-in .9s var(--ease) forwards;
+    }
+    .reveal--2 { animation-delay: .08s; }
+    .reveal--3 { animation-delay: .16s; }
+    .reveal--4 { animation-delay: .24s; }
+    @keyframes hero-in { to { opacity: 1; transform: none; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; animation: none; }
+      .menu, .btn, .nav__links a { transition: none; }
+    }
+  </style>
+</head>
+<body>
+<script src="img/image-collage/intro-collage.js"></script>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__media" aria-hidden="true">
+    <picture>
+      <source srcset="img/richmond-sanctuary-960.webp 960w, img/richmond-sanctuary.webp 1195w" sizes="100vw" type="image/webp">
+      <img src="img/richmond-sanctuary.jpg" alt="" width="1195" height="896" fetchpriority="high" decoding="async">
+    </picture>
+  </div>
+
+  <header>
+    <nav class="nav" aria-label="Main">
+      <a class="nav__brand" href="#"><img src="img/richmond-sda-logo-300.webp" srcset="img/richmond-sda-logo-300.webp 300w, img/richmond-sda-logo-600.webp 600w" sizes="160px" width="300" height="89" alt="Richmond Seventh-day Adventist Church — Home"></a>
+
+      <ul class="nav__links">
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="beliefs.html">Our Beliefs</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener noreferrer">Adventist Giving</a></li>
+      </ul>
+
+      <a class="btn btn--white nav__cta" href="contact.html">Contact Us</a>
+
+      <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </nav>
+  </header>
+
+  <div class="hero__content">
+    <p class="hero__pill reveal"><span class="hero__pill-dot" aria-hidden="true"></span>Richmond Seventh-day Adventist Church · Sabbath Worship</p>
+
+    <h1 class="hero__title reveal reveal--2" id="hero-title">Welcome to Our Richmond SDA <em>church family.</em></h1>
+
+    <p class="hero__text reveal reveal--3">
+      Experience the warmth of our community, rooted in faith and the hope of Jesus’ soon return.
+      Whether you are looking for a spiritual family, seeking life-changing Bible truth, or searching
+      for healing, we invite you to join us this Sabbath to worship in our sanctuary of peace.
+    </p>
+
+    <div class="hero__actions reveal reveal--4">
+      <!-- Add the bulletin and YouTube URLs in href when they are ready -->
+      <a class="btn btn--white" href="#">BULLETIN</a>
+      <a class="btn btn--glass" href="#">WATCH US ON YOUTUBE</a>
+    </div>
+  </div>
+
+  <p class="hero__scroll" aria-hidden="true">Scroll</p>
+</section>
+
+<main class="site">
+
+  <!-- About Us -->
+  <section class="block" id="about" aria-labelledby="about-title">
+    <div class="block__inner">
+      <h2 id="about-title">About Us</h2>
+      <p>Richmond Seventh-day Adventist Church is a welcoming family of faith, where we grow together in God’s Word and support one another in life’s journey.</p>
+      <a href="about.html" class="btn btn--navy-outline btn--lg">Learn More About Us</a>
+    </div>
+  </section>
+
+  <!-- Parallax: Church Services -->
+  <section class="parallax parallax--left parallax--sign" id="services" aria-labelledby="services-title">
+    <img class="parallax__img" src="img/beliefs-hero.webp" srcset="img/beliefs-hero-960.webp 960w, img/beliefs-hero.webp 1195w" sizes="100vw" alt="" width="1195" height="896" aria-hidden="true" loading="lazy" decoding="async">
+    <div class="parallax__box">
+      <h2 id="services-title">Church Services</h2>
+      <dl class="schedule">
+        <dt>Saturday</dt>
+        <dd>Sabbath School 9:30 am</dd>
+        <dd>Worship Service 11:00 am</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Our Beliefs -->
+  <section class="block block--cream" id="beliefs" aria-labelledby="beliefs-title">
+    <div class="block__inner">
+      <h2 id="beliefs-title">Our Beliefs</h2>
+      <p>We believe in a God of love who calls us to live with hope, serve our neighbors, and prepare for Jesus’ return.</p>
+      <a href="beliefs.html" class="btn btn--navy-outline btn--lg">Learn More About Our Beliefs</a>
+    </div>
+  </section>
+
+  <!-- Events -->
+  <!-- Cards copied from the "Richmond SDA Events" Google Calendar (Oct 19, 2026). Once an API key is added in the GOOGLE_CALENDAR settings at the end of the page, they update automatically. -->
+  <section class="events" id="events" aria-labelledby="events-title">
+    <div class="events__inner">
+      <span class="kicker">Join Us</span>
+      <div class="events__head">
+        <div>
+          <h2 class="events__heading" id="events-title">Events &amp; Gatherings</h2>
+          <p class="events__copy">From Sabbath worship to community meals, there’s always a place for you at Richmond SDA — here’s what’s coming up.</p>
+        </div>
+        <div class="events__controls">
+          <button class="round-btn" type="button" data-events-prev aria-label="Previous events" aria-controls="events-track">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="round-btn" type="button" data-events-next aria-label="Next events" aria-controls="events-track">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <ul class="events-track" id="events-track" tabindex="0" aria-label="Upcoming events">
+      <li class="event-card">
+        <div class="event-card__media">
+          <img src="https://drive.google.com/thumbnail?id=1e7Slp8QyajPbzDQFJaaUexsEQycYmVsB&amp;sz=w800" data-fallback="img/events/event-fellowship-lunch.webp" referrerpolicy="no-referrer" alt="" width="800" height="600" loading="lazy" decoding="async">
+          <span class="event-card__badge">Oct 24</span>
+        </div>
+        <div class="event-card__body">
+          <span class="event-card__when">Saturday · 1:30 – 2:30 pm</span>
+          <h3 class="event-card__title">Lunch</h3>
+          <p class="event-card__copy">Stay after worship for a potluck! Families and members of the congregation bring a homemade dish, side or dessert to share on a long buffet table.</p>
+        </div>
+      </li>
+      <li class="event-card">
+        <div class="event-card__media">
+          <img src="https://drive.google.com/thumbnail?id=1FRkNsjysxj12OIXp-Y28m-Ewd3aVOHEn&amp;sz=w800" data-fallback="img/events/event-sabbath-worship.webp" referrerpolicy="no-referrer" alt="" width="800" height="600" loading="lazy" decoding="async">
+          <span class="event-card__badge">Nov 1</span>
+        </div>
+        <div class="event-card__body">
+          <span class="event-card__when">Sunday · 2:30 – 3:30 pm</span>
+          <h3 class="event-card__title">Literature Outreach</h3>
+          <p class="event-card__copy">You are invited to the Literature Outreach! Get involved in distributing books and literature in our community.</p>
+        </div>
+      </li>
+      <li class="event-card">
+        <div class="event-card__media">
+          <img src="https://drive.google.com/thumbnail?id=1EkN6BgUvYrlj-PbvJrZyy6bgzm9NRuwU&amp;sz=w800" data-fallback="img/events/event-vespers.webp" referrerpolicy="no-referrer" alt="" width="800" height="600" loading="lazy" decoding="async">
+          <span class="event-card__badge">Nov 6</span>
+        </div>
+        <div class="event-card__body">
+          <span class="event-card__when">Friday · 6:45 – 7:45 pm</span>
+          <h3 class="event-card__title">Vespers</h3>
+          <p class="event-card__copy">Join us for a traditional service of evening prayer to open the Sabbath!</p>
+        </div>
+      </li>
+      <li class="event-card">
+        <div class="event-card__media">
+          <img src="https://drive.google.com/thumbnail?id=1e7Slp8QyajPbzDQFJaaUexsEQycYmVsB&amp;sz=w800" data-fallback="img/events/event-fellowship-lunch.webp" referrerpolicy="no-referrer" alt="" width="800" height="600" loading="lazy" decoding="async">
+          <span class="event-card__badge">Nov 14</span>
+        </div>
+        <div class="event-card__body">
+          <span class="event-card__when">Saturday · 1:30 – 2:30 pm</span>
+          <h3 class="event-card__title">Lunch</h3>
+          <p class="event-card__copy">Stay after worship for a potluck! Families and members of the congregation bring a homemade dish, side or dessert to share on a long buffet table.</p>
+        </div>
+      </li>
+      <li class="event-card">
+        <div class="event-card__media">
+          <img src="https://drive.google.com/thumbnail?id=1FRkNsjysxj12OIXp-Y28m-Ewd3aVOHEn&amp;sz=w800" data-fallback="img/events/event-sabbath-worship.webp" referrerpolicy="no-referrer" alt="" width="800" height="600" loading="lazy" decoding="async">
+          <span class="event-card__badge">Dec 5</span>
+        </div>
+        <div class="event-card__body">
+          <span class="event-card__when">Saturday · 1:30 – 2:30 pm</span>
+          <h3 class="event-card__title">Literature Outreach</h3>
+          <p class="event-card__copy">You are invited to the Literature Outreach! Get involved in distributing books and literature in our community.</p>
+        </div>
+      </li>
+      </ul>
+
+      <div class="events__cta">
+        <a href="events.html" class="btn btn--outline-light">View All Events</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__brand">
+      <a href="#" class="footer__logo"><img src="img/richmond-sda-logo.webp" alt="Richmond Seventh-day Adventist Church — Home" width="1500" height="445" loading="lazy"></a>
+      <p>Rooted in faith, sharing the hope of Jesus’ soon return.<br>A Christ-centered church family in Richmond.</p>
+    </div>
+
+    <div class="footer__grid">
+      <nav aria-labelledby="f-church">
+        <h2 class="footer__heading" id="f-church">Church</h2>
+        <ul>
+          <li><a href="#" aria-current="page">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="beliefs.html">Our Beliefs</a></li>
+          <li><a href="events.html">Events</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-resources">
+        <h2 class="footer__heading" id="f-resources">Ministries &amp; Resources</h2>
+        <ul>
+          <li><a href="https://www.nadadventist.org/" target="_blank" rel="noopener">North American Division</a></li>
+          <li><a href="https://www.adventist.org/" target="_blank" rel="noopener">General Conference</a></li>
+          <li><a href="https://www.hopetv.org/" target="_blank" rel="noopener">Hope Channel</a></li>
+          <li><a href="https://www.itiswritten.com/" target="_blank" rel="noopener">It Is Written</a></li>
+          <li><a href="https://egwwritings.org/" target="_blank" rel="noopener">Ellen White Writings</a></li>
+          <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener">Adventist Giving</a></li>
+        </ul>
+      </nav>
+      <div>
+        <h2 class="footer__heading">Visit</h2>
+        <address>
+          <a href="https://www.google.com/maps/dir/?api=1&amp;destination=3031+Berea+Rd%2C+Richmond%2C+KY+40475" target="_blank" rel="noopener">3031 Berea Rd<br>Richmond, KY 40475-9667<span class="visually-hidden"> (directions open in a new tab)</span></a>
+        </address>
+        <p class="footer__note">Saturdays<br>Sabbath School 9:30 am<br>Worship Service 11:00 am</p>
+      </div>
+      <div>
+        <h2 class="footer__heading">Connect</h2>
+        <!-- Add the church phone number here, e.g. <p><a href="tel:+1XXXXXXXXXX">(XXX) XXX-XXXX</a></p> -->
+        <p><a href="contact.html">Contact Us</a></p>
+        <p><a href="#">Watch us on YouTube</a></p>
+        <p class="footer__note">New here? <a href="contact.html">Plan your visit</a><br>and we’ll save you a seat.</p>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p class="footer__copy">Copyright ©2026 Richmond SDA Church
+        <span class="footer__mark"><img src="img/richmond-sda-logo.webp" alt="" width="1500" height="445" loading="lazy"></span></p>
+      <p class="footer__made"><a class="footer__credit remove-decoration" href="https://www.leonoliver.com/" target="_blank" rel="noopener"><span class="footer__credit-text">Made by</span><picture><source srcset="img/leonoliver-logo-30.webp 30w, img/leonoliver-logo-48.webp 48w" sizes="30px" type="image/webp"><img src="img/leonoliver-logo-30.png" srcset="img/leonoliver-logo-30.png 30w, img/leonoliver-logo-48.png 48w" sizes="30px" width="30" height="21" alt="Leon Oliver" loading="lazy" decoding="async"></picture><span class="visually-hidden"> (opens in a new tab)</span></a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile menu -->
+<div class="menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" hidden>
+  <div class="menu__top">
+    <a class="nav__brand" href="#"><img src="img/richmond-sda-logo-300.webp" srcset="img/richmond-sda-logo-300.webp 300w, img/richmond-sda-logo-600.webp 600w" sizes="160px" width="300" height="89" alt="Richmond Seventh-day Adventist Church — Home"></a>
+    <button class="nav__toggle" type="button" data-menu-close aria-label="Close menu" style="display:inline-flex">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <ul class="menu__links">
+    <li><a href="index.html" aria-current="page">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="beliefs.html">Our Beliefs</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="https://adventistgiving.org/donate" target="_blank" rel="noopener noreferrer">Adventist Giving</a></li>
+  </ul>
+  <a class="btn btn--white" href="contact.html">Contact Us</a>
+</div>
+
+<script>
+  (function () {
+    var openBtn = document.querySelector('.nav .nav__toggle');
+    var menu = document.getElementById('mobile-menu');
+    var closeBtn = menu.querySelector('[data-menu-close]');
+    var lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      menu.hidden = false;
+      requestAnimationFrame(function () { menu.classList.add('is-open'); });
+      openBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+    function close() {
+      menu.classList.remove('is-open');
+      openBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      setTimeout(function () { menu.hidden = true; }, 300);
+      (lastFocus || openBtn).focus();
+    }
+
+    openBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', close); });
+    document.addEventListener('keydown', function (e) {
+      if (menu.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'Tab') {                              // keep focus inside the open menu
+        var f = menu.querySelectorAll('a, button');
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+  })();
+</script>
+<script>
+  // Parallax: the background photo moves slower than the page while the section is on screen
+  (function () {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var items = [].map.call(document.querySelectorAll('.parallax'), function (el) {
+      return { el: el, img: el.querySelector('.parallax__img'), on: false };
+    });
+    if (!items.length) return;
+    var ticking = false;
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight;
+      items.forEach(function (it) {
+        if (!it.on) return;
+        var r = it.el.getBoundingClientRect();
+        var p = Math.max(-1, Math.min(1, (vh - r.top) / (vh + r.height) * 2 - 1));   // -1 entering, +1 leaving
+        it.img.style.transform = 'translate3d(0,' + (-p * r.height * 0.12).toFixed(1) + 'px,0)';
+      });
+    }
+    function request() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { items.forEach(function (i) { if (i.el === e.target) i.on = e.isIntersecting; }); });
+      request();
+    }, { rootMargin: '100px 0px' });
+    items.forEach(function (i) { io.observe(i.el); });
+  })();
+</script>
+<script>
+  // Card photos from Google Drive: if one can't load (not shared, removed), use the church photo instead
+  (function () {
+    document.querySelectorAll('.event-card img[data-fallback]').forEach(function (img) {
+      function useLocal() { img.onerror = null; img.src = img.getAttribute('data-fallback'); }
+      img.onerror = useLocal;
+      if (img.complete && img.naturalWidth === 0) useLocal();
+    });
+  })();
+</script>
+<script>
+  // Events carousel: the arrows scroll one card at a time and turn off at each end
+  (function () {
+    var track = document.getElementById('events-track');
+    if (!track) return;
+    var prev = document.querySelector('[data-events-prev]');
+    var next = document.querySelector('[data-events-next]');
+    function step() {
+      var card = track.querySelector('.event-card');
+      return card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 24) : track.clientWidth;
+    }
+    function update() {
+      var max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+    }
+    prev.addEventListener('click', function () { track.scrollBy({ left: -step() }); });
+    next.addEventListener('click', function () { track.scrollBy({ left: step() }); });
+    track.addEventListener('scroll', function () { requestAnimationFrame(update); }, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+</script>
+<script>
+  // Events from Google Calendar → cards. Needs a public calendar and a Google API key (see the settings).
+  (function () {
+    var GOOGLE_CALENDAR = {
+      calendarId: 'ca2c67269866b9614dd8dee7cb0749a64f6071c8e8fce1a24c530f19ffec6d1c@group.calendar.google.com',
+      apiKey: '',            // ← paste your Google Calendar API key here
+      timeZone: 'America/New_York',
+      maxEvents: 8
+    };
+    var track = document.getElementById('events-track');
+    if (!track || !GOOGLE_CALENDAR.apiKey) return;      // no key yet → keep the cards written in the page
+
+    // Photo for each card, chosen by words in the event title (first match wins)
+    var PHOTOS = [
+      [/outreach|literature|community|visit/i, 'event-sabbath-worship'],
+      [/prayer|pray/i,                          'event-prayer-meeting'],
+      [/vesper|friday|evening/i,                'event-vespers'],
+      [/lunch|potluck|fellowship|meal|dinner/i, 'event-fellowship-lunch'],
+      [/thanksgiving/i,                         'event-thanksgiving'],
+      [/christmas|advent|carol/i,               'event-christmas']
+    ];
+    var FALLBACK = ['event-sabbath-worship', 'event-vespers', 'event-fellowship-lunch', 'event-prayer-meeting'];
+    function photoFor(title, i) {
+      for (var k = 0; k < PHOTOS.length; k++) if (PHOTOS[k][0].test(title)) return PHOTOS[k][1];
+      return FALLBACK[i % FALLBACK.length];
+    }
+
+    var tz = GOOGLE_CALENDAR.timeZone;
+    var fmtBadge = new Intl.DateTimeFormat('en-US', { timeZone: tz, month: 'short', day: 'numeric' });
+    var fmtDay   = new Intl.DateTimeFormat('en-US', { timeZone: tz, weekday: 'long' });
+    var fmtTime  = new Intl.DateTimeFormat('en-US', { timeZone: tz, hour: 'numeric', minute: '2-digit' });
+
+    // Image for the card from Google Drive: an image attached to the event, or a Drive link in its description.
+    // The Drive file must be shared as "Anyone with the link".
+    function driveImage(ev) {
+      var att = (ev.attachments || []).filter(function (a) { return /^image\//.test(a.mimeType || '') && a.fileId; })[0];
+      var id = att && att.fileId;
+      if (!id) {
+        var m = (ev.description || '').match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:export=\w+&)?id=)([\w-]{20,})/);
+        id = m && m[1];
+      }
+      return id ? 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(id) + '&sz=w800' : '';
+    }
+
+    function plainText(html) {                          // descriptions can contain HTML
+      var d = document.createElement('div');
+      d.innerHTML = (html || '').replace(/<br\s*\/?>/gi, ' ');
+      var t = (d.textContent || '').replace(/https?:\/\/drive\.google\.com\/\S+/g, '').replace(/\s+/g, ' ').trim();
+      return t.length > 150 ? t.slice(0, 147).replace(/\s+\S*$/, '') + '…' : t;
+    }
+    function el(tag, cls, text) {
+      var n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text != null) n.textContent = text;
+      return n;
+    }
+
+    function card(ev, i) {
+      var allDay = !ev.start.dateTime;
+      // all-day events: read the date at noon so it never slips to the day before
+      var start = allDay ? new Date(ev.start.date + 'T12:00:00') : new Date(ev.start.dateTime);
+      var when = fmtDay.format(start) + ' · ' + (allDay ? 'All day' : fmtTime.format(start).toLowerCase());
+      var title = ev.summary || 'Church event';
+
+      var li = el('li', 'event-card');
+      var media = el('div', 'event-card__media');
+      var img = el('img');
+      var local = 'img/events/' + photoFor(title, i) + '.webp';
+      var fromDrive = driveImage(ev);
+      img.src = fromDrive || local;
+      if (fromDrive) {
+        img.referrerPolicy = 'no-referrer';
+        img.onerror = function () { img.onerror = null; img.src = local; };   // not shared publicly → our photo
+      }
+      img.alt = ''; img.width = 800; img.height = 600; img.loading = 'lazy'; img.decoding = 'async';
+      media.appendChild(img);
+      media.appendChild(el('span', 'event-card__badge', fmtBadge.format(start)));
+
+      var body = el('div', 'event-card__body');
+      body.appendChild(el('span', 'event-card__when', when));
+      body.appendChild(el('h3', 'event-card__title', title));
+      var copy = plainText(ev.description) || (ev.location ? ev.location : 'Join us at Richmond SDA Church.');
+      body.appendChild(el('p', 'event-card__copy', copy));
+
+      li.appendChild(media); li.appendChild(body);
+      return li;
+    }
+
+    var url = 'https://www.googleapis.com/calendar/v3/calendars/' + encodeURIComponent(GOOGLE_CALENDAR.calendarId) +
+      '/events?singleEvents=true&orderBy=startTime&supportsAttachments=true' +
+      '&timeMin=' + encodeURIComponent(new Date().toISOString()) +
+      '&maxResults=' + GOOGLE_CALENDAR.maxEvents +
+      '&timeZone=' + encodeURIComponent(tz) +
+      '&key=' + encodeURIComponent(GOOGLE_CALENDAR.apiKey);
+
+    fetch(url)
+      .then(function (r) { if (!r.ok) throw new Error('Calendar ' + r.status); return r.json(); })
+      .then(function (data) {
+        var items = (data.items || []).filter(function (ev) { return ev.status !== 'cancelled'; });
+        if (!items.length) return;                       // nothing upcoming → keep the written cards
+        track.textContent = '';
+        items.forEach(function (ev, i) { track.appendChild(card(ev, i)); });
+        track.scrollLeft = 0;
+        track.dispatchEvent(new Event('scroll'));        // refresh the arrow buttons
+      })
+      .catch(function (err) { console.warn('Google Calendar could not be loaded:', err.message); });
+  })();
+</script>
+</body>
+</html>
